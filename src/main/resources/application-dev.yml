@@ -1,0 +1,36 @@
+#端口号
+server:
+  port: 9080
+
+#数据库配置
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/jxc?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+#Mybits的集成配置
+mybatis:
+  mapper-locations: classpath:mapping/*Mapper.xml
+  type-aliases-package: com.example.entity
+
+#上传、下载的路径
+File:
+  filePath: D://word//knowledge//src//main//resources//fileStores//
+  zipPath: D:\Downloads\DownLoad.zip
+
+#showSql
+logging:
+  level:
+    com:
+      example:
+        mapper : debug
+
+  #分页的配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+  returnPageInfo: check
