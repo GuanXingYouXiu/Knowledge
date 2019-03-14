@@ -84,12 +84,15 @@
                             <div id="form">
                                 <div class="form-group">
                                     <input type="text" value="" id="ask" name="ask" class=" col-md-2" placeholder="问题">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="text" value="" id="keyword" name="keyword" class=" col-md-2" placeholder="关键词">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="text" value="" id="productName" name="productName" class=" col-md-2" placeholder="商品名称">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <input type="text" value="" id="shopNum" name="shopNum" class=" col-md-2" placeholder="商家编号">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="text" value="" id="keyword" name="keyword" class=" col-md-2"
+                                           placeholder="关键词">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="text" value="" id="productName" name="productName" class=" col-md-2"
+                                           placeholder="商品名称">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="text" value="" id="shopNum" name="shopNum" class=" col-md-2"
+                                           placeholder="商家编号">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                     <select id="org">
-                                        <option value="部门" >部门</option>
+                                        <option value="部门">部门</option>
                                         <option th:each="model : ${orgs}" th:value="${model.getName()}"
                                                 th:text="${model.getName()}"></option>
                                     </select>
@@ -174,50 +177,37 @@
 <script src="https://unpkg.com/bootstrap-table@1.14.1/dist/bootstrap-table.min.js"></script>
 <script>
 
-    // function f(data){
-    //     alert(data);
-    // }
-
-    var sorts = [];
-
-    $(".cboxonclick").click(function () {
-
-        var data = this.name;
-
-        sorts.push(data);
-
-
-        $.ajax({
-            type: "get",
-            url: "/knowledge/queryKnowledgeAll",
-            data: 'sortList=' + sorts,
-            success: function (data) {
-                //这里的msg是json对象，不是json字符串。
-                $('#table').bootstrapTable('load', data);
-            }
-        });
-
-    });
-
-
-
 
     $("#refresh_button").click(function () {
+
+        var obj = document.getElementsByClassName("cboxonclick");
+        var sorts = new Array();
+        for (var i in obj) {
+            if (obj[i].checked) {
+                sorts.push(obj[i].name);
+            }
+        }
+
+
         var ask = $("#ask").val();
         var keyWord = $("#keyword").val();
         var productName = $("#productName").val();
         var shopNum = $("#shopNum").val();
         var org = $("#org").val();
+        var sortList = sorts;
+
 
         $.ajax({
-            type: "get",
+            type: "post",
             url: "/knowledge/queryKnowledgeAll",
+            traditional:true,//防止深度序列化
             data: {
                 ask: ask,
                 keyWord: keyWord,
                 productName: productName,
                 shopNum: shopNum,
-                dataOrg: org
+                dataOrg: org,
+                sortList: sortList
             },
             success: function (data) {
                 //这里的msg是json对象，不是json字符串。

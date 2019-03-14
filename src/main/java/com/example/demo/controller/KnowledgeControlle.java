@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
@@ -57,16 +58,23 @@ public class KnowledgeControlle {
      */
     @RequestMapping("queryKnowledgeAll")
     @ResponseBody
-    public PageUtil queryKnowledgeAll(Integer offset, Integer limit,KnowledgeBean knowledgeBean) {
+    public PageUtil queryKnowledgeAll(String offset, String limit,KnowledgeBean knowledgeBean) {
         if (knowledgeBean.getDataOrg() != null && knowledgeBean.getDataOrg().equals("部门")) {
             knowledgeBean.setDataOrg("");
         }
 
-        if (offset == null || limit == null) {
-            offset = 0;
-            limit = 15;
+        Integer star = 0;
+        Integer pagesize =15;
+
+        System.out.printf(".........."+offset);
+        System.out.printf(".........."+limit);
+
+        if (offset != null || limit != null) {
+            star = Integer.valueOf(offset);
+            pagesize= Integer.valueOf(limit) ;
         }
-        PageInfo<KnowledgeBean> pageInfo = knowledgeService.queryKnowledgeAll(offset, limit, knowledgeBean);
+
+        PageInfo<KnowledgeBean> pageInfo = knowledgeService.queryKnowledgeAll(star, pagesize, knowledgeBean);
         PageUtil pageUtil = new PageUtil((int) pageInfo.getTotal(), pageInfo.getList());
         return pageUtil;
     }
