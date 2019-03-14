@@ -42,6 +42,7 @@
       <result column="shop_num" property="shopNum" jdbcType="VARCHAR"  />
       <result column="product_name" property="productName" jdbcType="VARCHAR"  />
       <result column="answer" property="answer" jdbcType="LONGVARCHAR"  />
+      <result column="image_path" property="imagePath" jdbcType="LONGVARCHAR"  />
       <result column="sort" property="sortName" jdbcType="VARCHAR" />
       <result column="name" property="dataOrg" jdbcType="VARCHAR"  />
       <result column="product_factory" property="productFactory" jdbcType="VARCHAR"  />
@@ -152,7 +153,7 @@
 
   <!-- 条件筛选知识库Knowledge-->
   <select id="queryKnowledgeAll" resultMap="ResultMapKnowledgeBean">
-    select k.id,k.ask,k.answer,k.product_name,k.product_factory,k.shop_num,o.name,s.sort from t_knowledge k left JOIN t_org o on k.data_org=o.data_org left join t_knowledge_sort s on k.sort=s.id where 1=1
+    select k.id,k.ask,k.answer,k.product_name,k.image_path,k.product_factory,k.shop_num,o.name,s.sort from t_knowledge k left JOIN t_org o on k.data_org=o.data_org left join t_knowledge_sort s on k.sort=s.id where 1=1
     <if test="sortList != null and sortList.size > 0">
       and k.sort in
       <foreach collection="sortList" index="index"  item="item" separator="," open="(" close=")">
@@ -227,5 +228,13 @@
     </set>
      where id=#{id}
   </update>
+
+    <!-- 根据id做批量删除-->
+    <delete id="deleteBatchByIds">
+        delete from t_knowledge where id in
+        <foreach collection="list" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
 
 </mapper>

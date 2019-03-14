@@ -30,13 +30,15 @@ public class KnowledgeBean {
     private String productName;
     //问题种类
     private List<Integer> sortList;
-
+    //图片路径
+    private String imagePath;
+    //种类
     private String sortName;
     //答案
     private String answer;
     //关键词
     private String keyWord;
-
+    //厂家
     private String productFactory;
 
 }

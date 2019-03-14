@@ -32,9 +32,6 @@ public class KnowledgeControlle {
     @Autowired
     private KnowledgeServiceImpl knowledgeService;
 
-    @Autowired
-    private FileServiceImpl fileService;
-
 
 
     @GetMapping
@@ -45,12 +42,6 @@ public class KnowledgeControlle {
         model.setViewName("knowledge");
         return model;
     }
-
-//    /**测试问题分类加分页查询*/
-//    @GetMapping("queryKnowledgeBySort")
-//    public PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sortId){
-//        return knowledgeService.queryKnowledgeBySort(pageNum,pageSize,sortId);
-//    }
 
     /**
      * 多条件查询（问题模糊查询、关键词模糊查询、商品名称模糊查询、
@@ -85,6 +76,7 @@ public class KnowledgeControlle {
      * 部门（data_org）、商品名称、商家编号、问题分类(sort)、生产厂家、答案、问题、上传的文件（视频、图片、文档）
      */
     @PostMapping("addKnowledge")
+    @ResponseBody
     public void addKnowledge(Knowledge knowledge,HttpServletRequest request)  {
         knowledgeService.addKnowledge(knowledge,request);
     }
@@ -93,6 +85,7 @@ public class KnowledgeControlle {
      * 下载知识库图片
      */
     @GetMapping("downloadFile")
+    @ResponseBody
     public String downloadFile(HttpServletRequest request, HttpServletResponse response,String path )throws UnsupportedEncodingException {
         return knowledgeService.downloadFile(request,response,path);
     }
@@ -101,6 +94,7 @@ public class KnowledgeControlle {
      * 下载多个知识库图片（压缩包）
      */
     @GetMapping("downloadFileMore")
+    @ResponseBody
     public String downloadFileMore(String Id){
         return knowledgeService.downloadFileMore(Id);
     }
@@ -109,6 +103,7 @@ public class KnowledgeControlle {
      * 批量删除
      */
     @PostMapping("deleteBatchByIds")
+    @ResponseBody
     public void deleteBatchByIds(@RequestBody List<String> Ids){
         knowledgeService.deleteBatchByIds(Ids);
     }
@@ -117,6 +112,7 @@ public class KnowledgeControlle {
      * 去修改，根据id去查询数据信息
      */
     @GetMapping("queryKnowledgeById")
+    @ResponseBody
     public Knowledge queryKnowledgeById( String Id){
         return knowledgeService.queryKnowledgeById(Id);
     }
@@ -125,6 +121,7 @@ public class KnowledgeControlle {
      * 知识库数据修改操作
      */
     @RequestMapping(value="updateKnowledge",method=RequestMethod.POST,produces={"application/json;charset=UTF-8"})
+    @ResponseBody
     public void updateKnowledge(Knowledge knowledge,HttpServletRequest request){
         knowledgeService.updateKnowledge(knowledge,request);
     }
