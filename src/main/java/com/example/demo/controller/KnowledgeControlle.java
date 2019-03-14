@@ -65,7 +65,6 @@ public class KnowledgeControlle {
             star = Integer.valueOf(offset);
             pagesize= Integer.valueOf(limit) ;
         }
-
         PageInfo<KnowledgeBean> pageInfo = knowledgeService.queryKnowledgeAll(star, pagesize, knowledgeBean);
         PageUtil pageUtil = new PageUtil((int) pageInfo.getTotal(), pageInfo.getList());
         return pageUtil;
@@ -113,11 +112,12 @@ public class KnowledgeControlle {
      * 去修改，根据id去查询数据信息
      */
     @GetMapping("queryKnowledgeById")
-    @ResponseBody
     public ModelAndView queryKnowledgeById(String Id){
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("updata");
-
+        Map map=knowledgeService.querySortAndOrg();
+        modelAndView.addObject ("orgs",map.get("org"));
+        modelAndView.addObject ("knownledgeSorts", map.get("sort"));
         modelAndView.addObject("model", knowledgeService.queryKnowledgeById(Id));
         return modelAndView;
     }
