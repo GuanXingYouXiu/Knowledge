@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @Description: 知识库筛选条件的Bean
  * @author: LZA
@@ -27,12 +29,14 @@ public class KnowledgeBean {
     //商品名称
     private String productName;
     //问题种类
-    private Integer sortId;
+    private List<Integer> sortList;
 
     private String sortName;
     //答案
     private String answer;
     //关键词
     private String keyWord;
+
+    private String productFactory;
 
 }

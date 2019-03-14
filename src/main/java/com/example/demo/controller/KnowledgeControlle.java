@@ -4,14 +4,19 @@ import com.example.demo.bean.KnowledgeBean;
 import com.example.demo.model.Knowledge;
 import com.example.demo.servise.impl.FileServiceImpl;
 import com.example.demo.servise.impl.KnowledgeServiceImpl;
+import com.example.demo.util.PageUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: KnowledgeControlle
@@ -19,7 +24,7 @@ import java.util.List;
  * @author: LZA
  * @date: 2019-03-08
  */
-@RestController
+@Controller
 @RequestMapping("knowledge")
 public class KnowledgeControlle {
 
@@ -29,19 +34,43 @@ public class KnowledgeControlle {
     @Autowired
     private FileServiceImpl fileService;
 
-    /**测试问题分类加分页查询*/
-    @GetMapping("queryKnowledgeBySort")
-    public PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sortId){
-        return knowledgeService.queryKnowledgeBySort(pageNum,pageSize,sortId);
+
+
+    @GetMapping
+    public ModelAndView knowledge(ModelAndView model){
+        Map map=knowledgeService.querySortAndOrg();
+        model.addObject ("orgs",map.get("org"));
+        model.addObject ("knownledgeSorts", map.get("sort"));
+        model.setViewName("knowledge");
+        return model;
     }
 
-    /**多条件查询（问题模糊查询、关键词模糊查询、商品名称模糊查询、
-     *  商家编号模糊查询、部门查询、种类Sort查询、分页查询）
+//    /**测试问题分类加分页查询*/
+//    @GetMapping("queryKnowledgeBySort")
+//    public PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sortId){
+//        return knowledgeService.queryKnowledgeBySort(pageNum,pageSize,sortId);
+//    }
+
+    /**
+     * 多条件查询（问题模糊查询、关键词模糊查询、商品名称模糊查询、
+     * 商家编号模糊查询、部门查询、种类Sort查询、分页查询）
      */
-    @GetMapping("queryKnowledgeAll")
-    public PageInfo<KnowledgeBean> queryKnowledgeAll(int pageNum, int pageSize,KnowledgeBean knowledgeBean){
-        return knowledgeService.queryKnowledgeAll(pageNum,pageSize,knowledgeBean);
+    @RequestMapping("queryKnowledgeAll")
+    @ResponseBody
+    public PageUtil queryKnowledgeAll(Integer offset, Integer limit,KnowledgeBean knowledgeBean) {
+        if (knowledgeBean.getDataOrg() != null && knowledgeBean.getDataOrg().equals("部门")) {
+            knowledgeBean.setDataOrg("");
+        }
+
+        if (offset == null || limit == null) {
+            offset = 0;
+            limit = 15;
+        }
+        PageInfo<KnowledgeBean> pageInfo = knowledgeService.queryKnowledgeAll(offset, limit, knowledgeBean);
+        PageUtil pageUtil = new PageUtil((int) pageInfo.getTotal(), pageInfo.getList());
+        return pageUtil;
     }
+
 
     /**
      * 添加知识库资料（上传文件）

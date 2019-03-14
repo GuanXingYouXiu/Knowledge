@@ -61,4 +61,20 @@ public class SqlProviderController {
         }
         return sql.toString();
     }
+
+    /**
+     * 查询所有Org
+     */
+    public String queryOrgAll(){
+        StringBuffer sql = new StringBuffer("select * from t_org where 1=1");
+        return sql.toString();
+    }
+    /**
+     * 查询所有sort
+     */
+    public String querySortAll(){
+        StringBuffer sql = new StringBuffer("select * from t_knowledge_sort where 1=1");
+        return sql.toString();
+    }
+
 }

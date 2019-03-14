@@ -6,9 +6,13 @@ server:
 spring:
   datasource:
     username: root
-    password: root
-    url: jdbc:mysql://localhost:3306/jxc?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    password: 1111
+    url: jdbc:mysql:///jxc?characterEncoding=utf8&useUnicode=true&useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    mode: HTML
 
 #Mybits的集成配置
 mybatis:
@@ -17,7 +21,7 @@ mybatis:
 
 #上传、下载的路径
 File:
-  filePath: D://word//knowledge//src//main//resources//fileStores//
+  filePath: D:\IdeaProjects\Knowledge\src\main\resources\fileStores\
   zipPath: D:\Downloads\DownLoad.zip
 
 #showSql

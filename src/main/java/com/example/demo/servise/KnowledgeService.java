@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 
 
 public interface KnowledgeService {
@@ -35,4 +36,7 @@ public interface KnowledgeService {
 
     /** 根据Id修改知识库数据*/
     void updateKnowledge( Knowledge knowledge ,HttpServletRequest request);
+
+    /**org与sort的数据*/
+    Map querySortAndOrg();
 }

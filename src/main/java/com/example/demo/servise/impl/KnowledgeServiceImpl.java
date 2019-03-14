@@ -2,6 +2,8 @@ package com.example.demo.servise.impl;
 
 import com.example.demo.bean.KnowledgeBean;
 import com.example.demo.mapper.KnowledgeMapper;
+import com.example.demo.mapper.KnowledgeSortMapper;
+import com.example.demo.mapper.OrgMapper;
 import com.example.demo.model.Knowledge;
 import com.example.demo.servise.KnowledgeService;
 import com.example.demo.util.RandomUtil;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +40,12 @@ public class KnowledgeServiceImpl implements KnowledgeService {
 
     @Autowired
     private FileServiceImpl fileService;
+
+    @Autowired
+    private KnowledgeSortMapper knowledgeSortMapper;
+
+    @Autowired
+    private OrgMapper orgMapper;
 
     @Override
     public PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sort) {
@@ -116,6 +125,14 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         log.info("修改的时间》》》"+knowledge.getBuildTime());
         log.info("当前时间》》》》"+System.currentTimeMillis());
         knowledgeMapper.updateKnowledge(knowledge);
+    }
+
+    @Override
+    public Map querySortAndOrg() {
+        Map map=new HashMap<>();
+        map.put("sort",knowledgeSortMapper.querySortAll());
+        map.put("org",orgMapper.queryOrgAll());
+        return map;
     }
 
 }
