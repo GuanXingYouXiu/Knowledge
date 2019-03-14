@@ -48,14 +48,6 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     private OrgMapper orgMapper;
 
     @Override
-    public PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sort) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<Knowledge> knowledges =knowledgeMapper.queryKnowledgeBySort(sort);
-        PageInfo<Knowledge> knowledgeAll=new PageInfo<>(knowledges);
-        return knowledgeAll;
-    }
-
-    @Override
     public PageInfo<KnowledgeBean> queryKnowledgeAll(int pageNum, int pageSize, KnowledgeBean knowledgeBean) {
         PageHelper.startPage(pageNum,pageSize);
         List<KnowledgeBean> knowledges =knowledgeMapper.queryKnowledgeAll(knowledgeBean);

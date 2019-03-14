@@ -14,17 +14,6 @@ import java.util.Map;
 public class SqlProviderController {
 
     /**
-     * 查询条件筛选语句.
-     */
-    public String queryKnowledgeBySort(Integer sort){
-        StringBuffer sql = new StringBuffer("select k.id,k.ask,k.answer,k.product_name,k.shop_num,o.name ,s.sort from t_knowledge "+
-                "k INNER JOIN t_org o on k.data_org=o.data_org join t_knowledge_sort s on k.sort=s.id where 1=1 ");
-        if(sort!= null ){
-            sql.append(" and k.sort=#{sort}");
-        }
-        return sql.toString();
-    }
-    /**
      * 根据Id查询图片路径.
      */
     public String queryImgPathById(String Id){

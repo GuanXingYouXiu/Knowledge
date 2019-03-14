@@ -13,9 +13,6 @@ import java.util.Map;
 
 public interface KnowledgeService {
 
-    /** 测试，使用注解做条件筛选*/
-    PageInfo<Knowledge> queryKnowledgeBySort(int pageNum, int pageSize,Integer sort);
-
     /** 条件筛选知识库*/
     PageInfo<KnowledgeBean> queryKnowledgeAll(int pageNum, int pageSize,KnowledgeBean knowledgeBean);
 
