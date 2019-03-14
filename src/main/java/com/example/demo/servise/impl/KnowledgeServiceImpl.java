@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
     @Override
-    public void addKnowledge(Knowledge knowledge,HttpServletRequest request) {
+    public void addKnowledge(Knowledge knowledge,HttpServletRequest request){
         Map map =fileService.handleFileUpload(request);
         String docPath= (String) map.get("docPath");
         String imagePath= (String) map.get("jpgPath");
@@ -67,9 +68,10 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         knowledge.setImagePath(imagePath);
         knowledge.setDocPath(docPath);
         knowledge.setVideoPath(videoPath);
-        knowledge.setBuildTime(new Date());
-//        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //HH表示24小时制；
-//        String time = dFormat.format(buildTime);
+        //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        knowledge.setBuildTime(timestamp);
+
         log.info("添加的时间》》》"+knowledge.getBuildTime());
         log.info("当前时间》》》》"+System.currentTimeMillis());
         knowledgeMapper.insertSelective(knowledge);
@@ -113,7 +115,9 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         knowledge.setImagePath(imagePath);
         knowledge.setDocPath(docPath);
         knowledge.setVideoPath(videoPath);
-        knowledge.setBuildTime(new Date());
+        //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"
+        Timestamp timestamp = new Timestamp(new Date().getTime());
+        knowledge.setBuildTime(timestamp);
         log.info("修改的时间》》》"+knowledge.getBuildTime());
         log.info("当前时间》》》》"+System.currentTimeMillis());
         knowledgeMapper.updateKnowledge(knowledge);
