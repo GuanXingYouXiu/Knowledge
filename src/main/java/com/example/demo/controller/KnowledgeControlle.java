@@ -6,6 +6,7 @@ import com.example.demo.servise.impl.FileServiceImpl;
 import com.example.demo.servise.impl.KnowledgeServiceImpl;
 import com.example.demo.util.PageUtil;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -113,8 +114,12 @@ public class KnowledgeControlle {
      */
     @GetMapping("queryKnowledgeById")
     @ResponseBody
-    public Knowledge queryKnowledgeById( String Id){
-        return knowledgeService.queryKnowledgeById(Id);
+    public ModelAndView queryKnowledgeById(String Id){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("updata");
+
+        modelAndView.addObject("model", knowledgeService.queryKnowledgeById(Id));
+        return modelAndView;
     }
 
     /**

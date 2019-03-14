@@ -213,7 +213,7 @@
 
     window.operateEvents = {
         'click .icon-edit': function (e, value, row, index) {
-            alert(row.id);
+            window.location.href = "knowledge/queryKnowledgeById?Id="+row.id;
         },
         'click .icon-trash': function (e, value, row, index) {
             alert(row.id);
