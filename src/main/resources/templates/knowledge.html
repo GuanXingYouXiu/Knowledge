@@ -81,7 +81,7 @@
                     </div>
                     <div class="well brown">
                         <div class="well-content" style="border:0px;">
-                            <div id="form">
+                            <form id="form">
                                 <div class="form-group">
                                     <input type="text" value="" id="ask" name="ask" class=" col-md-2" placeholder="问题">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="text" value="" id="keyword" name="keyword" class=" col-md-2"
@@ -97,17 +97,21 @@
                                                 th:text="${model.getName()}"></option>
                                     </select>
 
-                                    <button class="btn btn-primary block full-width m-b" id="refresh_button">查询</button>
-                                    <button class="btn btn-primary block full-width m-b" id="reset_button">重置</button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="refresh_button">查询
+                                    </button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="reset_button">重置
+                                    </button>
 
                                 </div>
-                            </div>
-                            <p>
+                                <p id="pid">
                                 <span class="col-md-3" th:each="model:${knownledgeSorts}">
                                     <input class="cboxonclick" type="checkbox" th:name="${model.id}"/>
                                     <span th:text="${model.getSort()}"></span>
                                 </span>
-                            </p>
+                                </p>
+                            </form>
                             <table id="table"></table>
                         </div>
                     </div>
@@ -178,6 +182,11 @@
 <script>
 
 
+    $("#reset_button").click(function () {
+        document.getElementById("form").reset()
+    })
+
+
     $("#refresh_button").click(function () {
 
         var obj = document.getElementsByClassName("cboxonclick");
@@ -200,7 +209,7 @@
         $.ajax({
             type: "post",
             url: "/knowledge/queryKnowledgeAll",
-            traditional:true,//防止深度序列化
+            traditional: true,//防止深度序列化
             data: {
                 ask: ask,
                 keyWord: keyWord,
