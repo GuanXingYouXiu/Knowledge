@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flatpoint - Responsive Web App Template</title>
+  
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/stylesheet.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+  
+    
+
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.html">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.html">
+      <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.html">
+                    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.html">
+                                  
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  <!--图标样式-->
+
+
+<!--主要样式-->
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+    $('.tree li.parent_li > span').on('click', function (e) {
+        var children = $(this).parent('li.parent_li').find(' > ul > li');
+        if (children.is(":visible")) {
+            children.hide('fast');
+            $(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+        } else {
+            children.show('fast');
+            $(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+        }
+        e.stopPropagation();
+    });
+});
+</script>
+<style type="text/css">
+.tree{ width:300px;
+height:500px;
+background-color:rgb(238,243,247);
+float:left;
+overflow-y:scroll;
+padding:0px;
+border:0px;
+border-radius:0px;}
+</style>
+  </head>
+
+  <body>
+
+    
+    <div id="content"> <!-- Content start -->
+      <div class="inner_content">
+          <div class="widgets_area">
+                <div class="row-fluid">
+                    <div class="span12">
+                         <div  class="daohanglink"style="">
+                           <span class="daohang"></span>
+                           <span>首页</span><span>></span>
+                           <span>用户管理</span><span>></span>
+                           <span>权限管理</span>
+                           
+                         </div>
+                        <div class="well brown" style=" border:0px; padding:0px;">
+                            
+                           
+                            <div class="well-content" style="border:0px; padding:0px; background-color:#FFF; height:500px;">
+                               
+                               <!--tree begin-->
+                                 <div class="tree">
+                                     <ul>
+	<li>
+		<span><i class="icon-folder-open"></i> 所有员工</span> 
+		<ul>
+			<li>
+				<span><i class="icon-minus-sign"></i> 总经理</span> 
+				<ul>
+					<li>
+						<span><i class="icon-leaf"></i>机构公司</span> 
+					</li>
+				</ul>
+			</li>
+			<li>
+				<span><i class="icon-minus-sign"></i> 机构公司</span> 
+				<ul>
+                <li>
+						<span><i class="icon-leaf"></i> 地区公司</span> 
+					</li>
+                    <li>
+						<span><i class="icon-leaf"></i> 地区公司</span> 
+					</li>
+                    <li>
+						<span><i class="icon-leaf"></i> 地区公司</span> 
+					</li>
+					
+					<li>
+						<span><i class="icon-minus-sign"></i> 地区公司</span>
+						<ul>
+							<li>
+								<span><i class="icon-minus-sign"></i>公司员工</span> 
+								<ul>
+									<li>
+										<span><i class="icon-leaf"></i>员工一</span> 
+									</li>
+									<li>
+										<span><i class="icon-leaf"></i>员工二</span> 
+									</li>
+                                    <li>
+										<span><i class="icon-leaf"></i>员工一</span> 
+									</li>
+									<li>
+										<span><i class="icon-leaf"></i>员工二</span> 
+									</li>
+                                    <li>
+										<span><i class="icon-leaf"></i>员工一</span> 
+									</li>
+									<li>
+										<span><i class="icon-leaf"></i>员工二</span> 
+									</li>
+                                    <li>
+										<span><i class="icon-leaf"></i>员工一</span> 
+									</li>
+									<li>
+										<span><i class="icon-leaf"></i>员工二</span> 
+									</li>
+								 </ul>
+							</li>
+							<li>
+								<span><i class="icon-leaf"></i>地区公司</span> 
+							</li>
+							
+						</ul>
+					</li>
+					
+				</ul>
+			</li>
+		</ul>
+	</li>
+
+</ul>
+                                 </div>
+                               
+                               <!--tree end-->
+                                <!--right begin-->
+                                 <div class="quanxian">
+                                         <div class="quanxian_list">
+                                         <input type="checkbox"><span>人员管理</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>客户管理</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>干预管理</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>产品管理</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>消息管理</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>客户记录</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         
+                                         </div>
+                                          <div class="quanxian_list">
+                                         <input type="checkbox"><span>充值记录</span>
+                                         <input type="checkbox"><span>添加</span>
+                                         <input type="checkbox"><span>修改</span>
+                                         <input type="checkbox"><span>删除</span>
+                                         <input type="checkbox"><span>查看</span>
+                                         </div>
+                                 </div>
+                               
+                               <!--right end-->
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+            </div>
+        </div>
+    </div>
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/jquery-ui-1.10.3.js"></script>
+    <script src="js/bootstrap.js"></script>
+
+    <script src="js/flatpoint_core.js"></script>
+
+
+  </body>
+</html>
