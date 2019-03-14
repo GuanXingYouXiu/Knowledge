@@ -161,26 +161,26 @@
     </if>
 
     <if test="id != null and id != ''">
-      and k.id like '%${id}%'
+      and k.id like "%"#{id}"%"
     </if>
     <if test="ask !=null and ask != ''">
-      and k.ask like '%${ask}%'
+      and k.ask like "%"#{ask}"%"
     </if>
     <if test="shopNum !=null and shopNum != ''">
-      and k.shop_Num like '%${shopNum}%'
+      and k.shop_Num like "%"#{shopNum}"%"
     </if>
     <if test="productName !=null and productName !=''">
-      and k.product_Name like '%${productName}%'
+      and k.product_Name like "%"#{productName}"%"
     </if>
     <if test="answer !=null and answer !=''">
-      and k.answer like '%${answer}%'
+      and k.answer like "%"#{answer}"%"
     </if>
     <if test="dataOrg !=null and dataOrg !=''">
-      and o.name like '%${dataOrg}%'
+      and o.name like "%"#{dataOrg}"%"
     </if>
     <if test="keyWord !=null and keyWord !=''">
-      and (k.id like '%${keyWord}%' or k.answer like '%${keyWord}%' or k.ask like '%${keyWord}%'or k.shop_Num like '%${keyWord}%' or k.product_Name like '%${keyWord}%'
-      or o.name like '%${keyWord}%' or s.sort like '%${keyWord}%')
+      and (k.id like "%"#{keyWord}"%" or k.answer like "%"#{keyWord}"%" or k.ask like "%"#{keyWord}"%" or k.shop_Num like "%"#{keyWord}"%" or k.product_Name like "%"#{keyWord}"%"
+      or o.name like "%"#{keyWord}"%" or s.sort like "%"#{keyWord}"%")
     </if>
   </select>
 
