@@ -20,4 +20,7 @@ public interface FileService {
 
     //多文件压缩包下载
     String downloadFileMore(String imgPath);
+
+    //文件上传NEW
+    Map FileUploadAll(HttpServletRequest request,MultipartFile[] imagePath) throws IOException;
 }

@@ -136,50 +136,15 @@ public class KnowledgeControlle {
      */
     @PostMapping(value = "updateKnowledge")
     @ResponseBody
-    public void updateKnowledge(@RequestParam("id") String id,
-                                @RequestParam("productName") String productName,
-                                @RequestParam("shopNum") String shopNum,
-                                @RequestParam("sort") String sort,
-                                @RequestParam("productFactory") String productFactory,
-                                @RequestParam("ask") String ask,
-                                @RequestParam("answer") String answer,
+    public void updateKnowledge(@RequestParam(value = "id",required = false) String id,
+                                @RequestParam(value = "productName",required = false) String productName,
+                                @RequestParam(value = "shopNum",required = false) String shopNum,
+                                @RequestParam(value = "sort",required = false) String sort,
+                                @RequestParam(value = "productFactory",required = false) String productFactory,
+                                @RequestParam(value = "ask",required = false) String ask,
+                                @RequestParam(value = "answer",required = false) String answer,
                                 @RequestParam MultipartFile[] imagePath,
                                 HttpServletRequest request) throws IOException {
-
-
-        int i = imagePath.length;
-
-        for (MultipartFile m :
-                imagePath) {
-            m.getOriginalFilename();
-        }
-
-
-        CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
-                request.getSession().getServletContext());
-        //检查form中是否有enctype="multipart/form-data"
-        if(multipartResolver.isMultipart(request))
-        {
-            //将request变成多部分request
-            MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
-            //获取multiRequest 中所有的文件名
-            Iterator iter=multiRequest.getFileNames();
-
-            while(iter.hasNext())
-            {
-                //一次遍历所有文件
-                MultipartFile file=multiRequest.getFile(iter.next().toString());
-                if(file!=null)
-                {
-                    String path="D:/springUpload"+file.getOriginalFilename();
-                    //上传
-                    file.transferTo(new File(path));
-                }
-
-            }
-
-        }
-
         Knowledge knowledge = new Knowledge();
         knowledge.setId(id);
         knowledge.setProductName(productName);
@@ -188,7 +153,7 @@ public class KnowledgeControlle {
         knowledge.setProductFactory(productFactory);
         knowledge.setAsk(ask);
         knowledge.setAnswer(answer);
-        knowledgeService.updateKnowledge(knowledge, request);
+        knowledgeService.updateKnowledge(knowledge, request,imagePath);
     }
 
 }

@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -66,73 +68,73 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Map handleFileUpload(HttpServletRequest request) {
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        Map<String,String> map=new HashMap<>();
-        MultipartFile file = null;
-        BufferedOutputStream stream = null;
-        String fileName=null;
-        String suffix=null;
-        String path = null;
-        StringBuffer jpgFileUrl=new StringBuffer();
-        StringBuffer docFileUrl=new StringBuffer();
-        StringBuffer mp4FileUrl=new StringBuffer();
-        //循环文件，分别做处理
-        for (int i = 0; i < files.size(); ++i) {
-            file = files.get(i);
-            //获取文件名
-            fileName = file.getOriginalFilename();
-            log.info("上传的文件名：---"+fileName);
-            //获取文件路径
-            path=filePath+fileName;
-            log.info("上传文件的路径：--"+path);
-            // 检测是否存在目录
-            File dest = new File(path);
-            if (!dest.getParentFile().exists()) {
-                // 如果不存在就新建文件夹
-                dest.getParentFile().mkdirs();
-            }
-            if (!file.isEmpty()) {
-                try {
-                    //如果文件夹与文件都不为空则写入
-                    byte[] bytes = file.getBytes();
-                    //设置文件路径及名字
-                    stream = new BufferedOutputStream(new FileOutputStream(
-                            new File(path)));
-                    stream.write(bytes);
-                    stream.close();
-                    //根据文件后缀名，对于不同类型文件做相关处理
-                    suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    if(suffix.equals("doc")){
-                        //该文件为doc文件 ，给路径拼接“ ，”好用于同类型多文件
-                        docFileUrl.append(path+",");
-                        log.info("doc文件的路径>>>>>>>>>>>>>>"+docFileUrl.toString());
-                        map.put("docPath",docFileUrl.toString());
-                    }else if(suffix.equals("jpg") ||suffix.equals("png")){
-                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
-                        jpgFileUrl.append(path+",");
-                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
-                        map.put("jpgPath",jpgFileUrl.toString());
-                    }else if (suffix.equals("mp4")){
-                        //该文件为mp4文件 ，给路径拼接“ ，”好用于同类型多文件
-                        mp4FileUrl.append(path+",");
-                        log.info("mp4文件的路径>>>>>>>>>>>>>>"+mp4FileUrl.toString());
-                        map.put("mp4Path",mp4FileUrl.toString());
-                    }else{
-                        log.info(">>>>>>>>其他类型文件可以继续增加");
-                    }
-
-                } catch (Exception e) {
-                    String errorMessage="第 " + i +" 个文件上传失败  ==> "+ e.getMessage();
-                    map.put("arror",errorMessage );
-                    return map;
-                }
-            } else {
-                String errorMessage="第 " + i + " 个文件上传失败因为文件为空";
-                map.put("arror",errorMessage );
-                return map;
-            }
-        }
-        return map;
+//        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+//        Map<String,String> map=new HashMap<>();
+//        MultipartFile file = null;
+//        BufferedOutputStream stream = null;
+//        String fileName=null;
+//        String suffix=null;
+//        String path = null;
+//        StringBuffer jpgFileUrl=new StringBuffer();
+//        StringBuffer docFileUrl=new StringBuffer();
+//        StringBuffer mp4FileUrl=new StringBuffer();
+//        //循环文件，分别做处理
+//        for (int i = 0; i < files.size(); ++i) {
+//            file = files.get(i);
+//            //获取文件名
+//            fileName = file.getOriginalFilename();
+//            log.info("上传的文件名：---"+fileName);
+//            //获取文件路径
+//            path=filePath+fileName;
+//            log.info("上传文件的路径：--"+path);
+//            // 检测是否存在目录
+//            File dest = new File(path);
+//            if (!dest.getParentFile().exists()) {
+//                // 如果不存在就新建文件夹
+//                dest.getParentFile().mkdirs();
+//            }
+//            if (!file.isEmpty()) {
+//                try {
+//                    //如果文件夹与文件都不为空则写入
+//                    byte[] bytes = file.getBytes();
+//                    //设置文件路径及名字
+//                    stream = new BufferedOutputStream(new FileOutputStream(
+//                            new File(path)));
+//                    stream.write(bytes);
+//                    stream.close();
+//                    //根据文件后缀名，对于不同类型文件做相关处理
+//                    suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+//                    if(suffix.equals("doc")){
+//                        //该文件为doc文件 ，给路径拼接“ ，”好用于同类型多文件
+//                        docFileUrl.append(path+",");
+//                        log.info("doc文件的路径>>>>>>>>>>>>>>"+docFileUrl.toString());
+//                        map.put("docPath",docFileUrl.toString());
+//                    }else if(suffix.equals("jpg") ||suffix.equals("png")){
+//                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
+//                        jpgFileUrl.append(path+",");
+//                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
+//                        map.put("jpgPath",jpgFileUrl.toString());
+//                    }else if (suffix.equals("mp4")){
+//                        //该文件为mp4文件 ，给路径拼接“ ，”好用于同类型多文件
+//                        mp4FileUrl.append(path+",");
+//                        log.info("mp4文件的路径>>>>>>>>>>>>>>"+mp4FileUrl.toString());
+//                        map.put("mp4Path",mp4FileUrl.toString());
+//                    }else{
+//                        log.info(">>>>>>>>其他类型文件可以继续增加");
+//                    }
+//
+//                } catch (Exception e) {
+//                    String errorMessage="第 " + i +" 个文件上传失败  ==> "+ e.getMessage();
+//                    map.put("arror",errorMessage );
+//                    return map;
+//                }
+//            } else {
+//                String errorMessage="第 " + i + " 个文件上传失败因为文件为空";
+//                map.put("arror",errorMessage );
+//                return map;
+//            }
+//        }
+        return null;
     }
 
     @Override
@@ -227,5 +229,61 @@ public class FileServiceImpl implements FileService {
             }
         }
         return "success";
+    }
+
+    @Override
+    public Map FileUploadAll(HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
+        CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        Map<String,String> map=new HashMap<>();
+        String fileName=null;
+        String suffix=null;
+        String path = null;
+        StringBuffer jpgFileUrl=new StringBuffer();
+        StringBuffer docFileUrl=new StringBuffer();
+        StringBuffer mp4FileUrl=new StringBuffer();
+
+        //检查form中是否有enctype="multipart/form-data"
+        if(multipartResolver.isMultipart(request))
+        {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+            //获取multiRequest 中所有的文件名
+            Iterator iter=multiRequest.getFileNames();
+            while(iter.hasNext())
+            {
+                //一次遍历所有文件
+                MultipartFile file=multiRequest.getFile(iter.next().toString());
+                if(file!=null)
+                {
+                    fileName = file.getOriginalFilename();
+                    log.info("上传的文件名：---"+fileName);
+                    path=filePath+fileName;
+                    //上传
+                    file.transferTo(new File(path));
+                    //根据文件后缀名，对于不同类型文件做相关处理
+                    suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+                    if(suffix.equals("doc")){
+                        //该文件为doc文件 ，给路径拼接“ ，”好用于同类型多文件
+                        docFileUrl.append(path+",");
+                        log.info("doc文件的路径>>>>>>>>>>>>>>"+docFileUrl.toString());
+                        map.put("docPath",docFileUrl.toString());
+                    }else if(suffix.equals("jpg") ||suffix.equals("png")){
+                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
+                        jpgFileUrl.append(path+",");
+                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
+                        map.put("jpgPath",jpgFileUrl.toString());
+                    }else if (suffix.equals("mp4")){
+                        //该文件为mp4文件 ，给路径拼接“ ，”好用于同类型多文件
+                        mp4FileUrl.append(path+",");
+                        log.info("mp4文件的路径>>>>>>>>>>>>>>"+mp4FileUrl.toString());
+                        map.put("mp4Path",mp4FileUrl.toString());
+                    }else{
+                        log.info(">>>>>>>>其他类型文件可以继续增加");
+                    }
+                }
+            }
+        }
+        return map;
     }
 }

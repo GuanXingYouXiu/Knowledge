@@ -3,9 +3,11 @@ package com.example.demo.servise;
 import com.example.demo.bean.KnowledgeBean;
 import com.example.demo.model.Knowledge;
 import com.github.pagehelper.PageInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +34,7 @@ public interface KnowledgeService {
     Knowledge queryKnowledgeById(String Id);
 
     /** 根据Id修改知识库数据*/
-    void updateKnowledge( Knowledge knowledge ,HttpServletRequest request);
+    void updateKnowledge( Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath) throws IOException;
 
     /**org与sort的数据*/
     Map querySortAndOrg();

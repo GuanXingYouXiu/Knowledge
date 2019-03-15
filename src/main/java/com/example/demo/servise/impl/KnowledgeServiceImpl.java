@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -107,12 +108,13 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
     @Override
-    public void updateKnowledge(Knowledge knowledge,HttpServletRequest request) {
-        Map map =fileService.handleFileUpload(request);
+    public void updateKnowledge(Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath) throws IOException {
+//        Map map =fileService.handleFileUpload(request);
+        Map map =fileService.FileUploadAll(request,imagePath);
         String docPath= (String) map.get("docPath");
-        String imagePath= (String) map.get("jpgPath");
+        String jpgPath= (String) map.get("jpgPath");
         String videoPath= (String) map.get("mp4Path");
-        knowledge.setImagePath(imagePath);
+        knowledge.setImagePath(jpgPath);
         knowledge.setDocPath(docPath);
         knowledge.setVideoPath(videoPath);
         //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"
