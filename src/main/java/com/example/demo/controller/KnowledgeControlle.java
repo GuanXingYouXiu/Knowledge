@@ -11,12 +11,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,11 +35,11 @@ import java.util.Map;
  * @date: 2019-03-08
  */
 @Controller
-    @RequestMapping("knowledge")
+@RequestMapping("knowledge")
 public class KnowledgeControlle {
 
     @GetMapping("fileupload")
-    public String upload(){
+    public String upload() {
         return "/fileupload";
     }
 
@@ -39,12 +47,11 @@ public class KnowledgeControlle {
     private KnowledgeServiceImpl knowledgeService;
 
 
-
     @GetMapping
-    public ModelAndView knowledge(ModelAndView model){
-        Map map=knowledgeService.querySortAndOrg();
-        model.addObject ("orgs",map.get("org"));
-        model.addObject ("knownledgeSorts", map.get("sort"));
+    public ModelAndView knowledge(ModelAndView model) {
+        Map map = knowledgeService.querySortAndOrg();
+        model.addObject("orgs", map.get("org"));
+        model.addObject("knownledgeSorts", map.get("sort"));
         model.setViewName("knowledge");
         return model;
     }
@@ -55,17 +62,17 @@ public class KnowledgeControlle {
      */
     @RequestMapping("queryKnowledgeAll")
     @ResponseBody
-    public PageUtil queryKnowledgeAll(String offset, String limit,KnowledgeBean knowledgeBean) {
+    public PageUtil queryKnowledgeAll(String offset, String limit, KnowledgeBean knowledgeBean) {
         if (knowledgeBean.getDataOrg() != null && knowledgeBean.getDataOrg().equals("部门")) {
             knowledgeBean.setDataOrg("");
         }
 
         Integer star = 0;
-        Integer pagesize =15;
+        Integer pagesize = 15;
 
         if (offset != null || limit != null) {
             star = Integer.valueOf(offset);
-            pagesize= Integer.valueOf(limit) ;
+            pagesize = Integer.valueOf(limit);
         }
         PageInfo<KnowledgeBean> pageInfo = knowledgeService.queryKnowledgeAll(star, pagesize, knowledgeBean);
         PageUtil pageUtil = new PageUtil((int) pageInfo.getTotal(), pageInfo.getList());
@@ -79,8 +86,8 @@ public class KnowledgeControlle {
      */
     @PostMapping("addKnowledge")
     @ResponseBody
-    public void addKnowledge(Knowledge knowledge,HttpServletRequest request)  {
-        knowledgeService.addKnowledge(knowledge,request);
+    public void addKnowledge(Knowledge knowledge, HttpServletRequest request) {
+        knowledgeService.addKnowledge(knowledge, request);
     }
 
     /**
@@ -88,8 +95,8 @@ public class KnowledgeControlle {
      */
     @GetMapping("downloadFile")
     @ResponseBody
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response,String path )throws UnsupportedEncodingException {
-        return knowledgeService.downloadFile(request,response,path);
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String path) throws UnsupportedEncodingException {
+        return knowledgeService.downloadFile(request, response, path);
     }
 
     /**
@@ -97,7 +104,7 @@ public class KnowledgeControlle {
      */
     @GetMapping("downloadFileMore")
     @ResponseBody
-    public String downloadFileMore(String Id){
+    public String downloadFileMore(String Id) {
         return knowledgeService.downloadFileMore(Id);
     }
 
@@ -106,7 +113,7 @@ public class KnowledgeControlle {
      */
     @PostMapping("deleteBatchByIds")
     @ResponseBody
-    public void deleteBatchByIds(@RequestBody List<String> Ids){
+    public void deleteBatchByIds(@RequestBody List<String> Ids) {
         knowledgeService.deleteBatchByIds(Ids);
     }
 
@@ -114,12 +121,12 @@ public class KnowledgeControlle {
      * 去修改，根据id去查询数据信息
      */
     @GetMapping("queryKnowledgeById")
-    public ModelAndView queryKnowledgeById(String Id){
+    public ModelAndView queryKnowledgeById(String Id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("updata");
-        Map map=knowledgeService.querySortAndOrg();
-        modelAndView.addObject ("orgs",map.get("org"));
-        modelAndView.addObject ("knownledgeSorts", map.get("sort"));
+        Map map = knowledgeService.querySortAndOrg();
+        modelAndView.addObject("orgs", map.get("org"));
+        modelAndView.addObject("knownledgeSorts", map.get("sort"));
         modelAndView.addObject("model", knowledgeService.queryKnowledgeById(Id));
         return modelAndView;
     }
@@ -127,11 +134,61 @@ public class KnowledgeControlle {
     /**
      * 知识库数据修改操作
      */
-    @PostMapping(value="updateKnowledge",produces={"application/json;charset=UTF-8"})
+    @PostMapping(value = "updateKnowledge")
     @ResponseBody
-    public void updateKnowledge(Knowledge knowledge,HttpServletRequest request){
-        Knowledge knowledge1 = knowledge;
-        knowledgeService.updateKnowledge(knowledge,request);
+    public void updateKnowledge(@RequestParam("id") String id,
+                                @RequestParam("productName") String productName,
+                                @RequestParam("shopNum") String shopNum,
+                                @RequestParam("sort") String sort,
+                                @RequestParam("productFactory") String productFactory,
+                                @RequestParam("ask") String ask,
+                                @RequestParam("answer") String answer,
+                                @RequestParam MultipartFile[] imagePath,
+                                HttpServletRequest request) throws IOException {
+
+
+        int i = imagePath.length;
+
+        for (MultipartFile m :
+                imagePath) {
+            m.getOriginalFilename();
+        }
+
+
+        CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        //检查form中是否有enctype="multipart/form-data"
+        if(multipartResolver.isMultipart(request))
+        {
+            //将request变成多部分request
+            MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+            //获取multiRequest 中所有的文件名
+            Iterator iter=multiRequest.getFileNames();
+
+            while(iter.hasNext())
+            {
+                //一次遍历所有文件
+                MultipartFile file=multiRequest.getFile(iter.next().toString());
+                if(file!=null)
+                {
+                    String path="D:/springUpload"+file.getOriginalFilename();
+                    //上传
+                    file.transferTo(new File(path));
+                }
+
+            }
+
+        }
+
+        Knowledge knowledge = new Knowledge();
+        knowledge.setId(id);
+        knowledge.setProductName(productName);
+        knowledge.setShopNum(shopNum);
+        knowledge.setShopNum(sort);
+        knowledge.setProductFactory(productFactory);
+        knowledge.setAsk(ask);
+        knowledge.setAnswer(answer);
+        knowledgeService.updateKnowledge(knowledge, request);
     }
 
 }

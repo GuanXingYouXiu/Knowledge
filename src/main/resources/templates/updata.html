@@ -21,7 +21,7 @@
             </div>
         </h3>
     </div>
-    <form action="/knowledge/updateKnowledge" method="post" enctype="multipart/form-data">
+    <form id="add_commodity_form" action="/knowledge/updateKnowledge" method="post" enctype="multipart/form-data">
         <div class="panel-title">
             <div class="title">
                 <div class="row">
@@ -29,7 +29,7 @@
                         <div class="form-horizontal">
                             <div class="controls-row">
                                 <div class="form-control-static col-md-3">
-                                    <button class="btn icon-save" type="submit" th:text="保存"/>&nbsp;&nbsp;&nbsp;
+                                    <button onclick="addCommodity()" class="btn icon-save" type="submit" th:text="保存"/>&nbsp;&nbsp;&nbsp;
                                     <button id="cancel" class="btn ui-icon-cancel" type="button" th:text="取消"/>
                                 </div>
                             </div>
@@ -106,26 +106,27 @@
                                 </div>
                             </div>
                         </div>
-                        <!--<div class="controls-row">-->
-                            <!--<div class="form-group col-md-10">-->
-                                <!--<label class="col-sm-2 control-label">上传图片</label>-->
-                                <!--<div id="add_bachPic" class="col-sm-10 controls">-->
-                                    <!--<input name="imagePath" type="file" multiple class="file-loading">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="form-group col-md-10">-->
-                                <!--<label class="col-sm-2 control-label">上传视频</label>-->
-                                <!--<div class="col-sm-10 controls">-->
-                                    <!--<input  th:name="videoPath" type="file" multiple class="file-loading">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--<div class="form-group col-md-10">-->
-                                <!--<label class="col-sm-2 control-label">上传文档</label>-->
-                                <!--<div class="col-sm-10 controls">-->
-                                    <!--<input th:name="docPath" type="file" multiple class="file-loading">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
+                        <div class="controls-row">
+                            <div class="form-group col-md-10">
+                                <label class="col-sm-2 control-label">上传图片</label>
+                                <div class="col-sm-10 controls">
+                                    <!--<input  th:name="imagePath" type="file" >-->
+                                    <input id="add_bachPic" th:name="imagePath" type="file" multiple  class="file-loading">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <label class="col-sm-2 control-label">上传视频</label>
+                                <div class="col-sm-10 controls">
+                                    <input  th:name="videoPath" type="file">
+                                </div>
+                            </div>
+                            <div class="form-group col-md-10">
+                                <label class="col-sm-2 control-label">上传文档</label>
+                                <div class="col-sm-10 controls">
+                                    <input th:name="docPath" type="file">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -133,62 +134,51 @@
     </form>
 </div>
 <script>
-    // //初始化文件上传插件
-    // function initFileUpload(prefix){
-    //     $("#add_bachPic").fileinput({
-    //         language: 'zh',                                 //中文
-    //         uploadUrl:'/file/upload',
-    //         showPreview: true,				//展前预览
-    //         showUpload: true,				//不显示上传按钮
-    //         showCaption: true,				//不显示文字表述
-    //         uploadAsync:false,                             //采用同步上传
-    //         removeFromPreviewOnError:true,                 //当文件不符合规则，就不显示预览
-    //         maxFileCount: 5,
-    //         maxFileSize: 1024*10,                          //单位为kb，如果为0表示不限制文件大小
-    //         allowedFileExtensions: ["jpg", "jpeg", "gif", "png","bmp"],
-    //         uploadExtraData: function(previewId, index) {   //额外参数 返回json数组
-    //             return {
-    //                 'id':commId
-    //             };
-    //         }
-    //     }).on("filebatchuploadsuccess", function(event, data) {	//当上传成功回调函数
-    //         var response = data.response;
-    //         if(response.resultCode=='0'){
-    //             $("#closedAddWin").click();
-    //             table.ajax.reload();
-    //         }
-    //     });
-    // }
-    // //初始化文件上传插件
-    // function initFileUpload(prefix){
-    //     $("#add_bachPic").fileinput({
-    //         language: 'zh',                                 //中文
-    //         uploadUrl:'<%=basePath%>/commodity/addCommodityPic',
-    //         showPreview: true,				//展前预览
-    //         showUpload: false,				//不显示上传按钮
-    //         showCaption: false,				//不显示文字表述
-    //         uploadAsync:false,                             //采用同步上传
-    //         removeFromPreviewOnError:true,                 //当文件不符合规则，就不显示预览
-    //         maxFileCount: 5,
-    //         maxFileSize: 1024*10,                          //单位为kb，如果为0表示不限制文件大小
-    //         allowedFileExtensions: ["jpg", "jpeg", "gif", "png","bmp"],
-    //         uploadExtraData: function(previewId, index) {   //额外参数 返回json数组
-    //             return {
-    //                 'id':commId
-    //             };
-    //         }
-    //     }).on("filebatchuploadsuccess", function(event, data) {	//当上传成功回调函数
-    //         var response = data.response;
-    //         if(response.resultCode=='0'){
-    //             $("#closedAddWin").click();
-    //             table.ajax.reload();
-    //         }
-    //     });
-    // }
+    var commId;
+    function addCommodity(){
 
-    $("#cancel").onclick(function () {
-        alert("cljlkjljlj")
-    })
+        if($('#add_bachPic').fileinput("getFilesCount")<=0){          //获取文件个数
+            myAlert(1,"请至少上传一张详情图片!");
+            return;
+        }
+        $("#add_commodity_form").attr('action','/knowledge/updateKnowledge');
+        $("#add_commodity_form").ajaxSubmit({
+            success : function(data){
+                var result = $.parseJSON(data);
+                if(result.resultCode == 0){
+                    var id = result.result;	                //先保存基本数据，返回数据库id
+                    commId = id;                            //保存id值
+                    $('#add_bachPic').fileinput('upload');        //然后触发插件开始上传文件
+                }
+            }
+        });
+    }
+    //初始化文件上传插件
+    function initFileUpload(prefix){
+        $("#add_bachPic").fileinput({
+            language: 'zh',                                 //中文
+            uploadUrl:'/knowledge/updateKnowledge',
+            showPreview: true,				//展前预览
+            showUpload: false,				//不显示上传按钮
+            showCaption: false,				//不显示文字表述
+            uploadAsync:false,                             //采用同步上传
+            removeFromPreviewOnError:true,                 //当文件不符合规则，就不显示预览
+            maxFileCount: 5,
+            maxFileSize: 1024*10,                          //单位为kb，如果为0表示不限制文件大小
+            allowedFileExtensions: ["jpg", "jpeg", "gif", "png","bmp"],
+            uploadExtraData: function(previewId, index) {   //额外参数 返回json数组
+                return {
+                    'id':commId
+                };
+            }
+        }).on("filebatchuploadsuccess", function(event, data) {	//当上传成功回调函数
+            var response = data.response;
+            if(response.resultCode=='0'){
+                $("#closedAddWin").click();
+                table.ajax.reload();
+            }
+        });
+    }
 </script>
 </body>
 </html>

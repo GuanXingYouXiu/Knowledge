@@ -9,11 +9,11 @@
 
 </head>
 <body>
-<form id="add_commodity_form" method="post" enctype="multipart/form-data">
+<form action="/commodity/addCommodity" id="add_commodity_form" method="post" enctype="multipart/form-data">
     <div class="form-group" style="width:99%">
         <input id="add_bachPic" name="commoPicArr" type="file" multiple  class="file-loading">
     </div>
-    <input type="submit" value="提交">
+    <input onclick="addCommodity()" type="submit" value="提交">
 
 </form>
 <script>
@@ -21,10 +21,10 @@
     function addCommodity(){
 
         if($('#add_bachPic').fileinput("getFilesCount")<=0){          //获取文件个数
-            myAlert(1,"请至少上传一张详情图片!");
+            alert(1,"请至少上传一张详情图片!");
             return;
         }
-        $("#add_commodity_form").attr('action','<%=basePath%>/commodity/addCommodity');
+        $("#add_commodity_form").attr('action','/knowledge/updateKnowledge');
         $("#add_commodity_form").ajaxSubmit({
             success : function(data){
                 var result = $.parseJSON(data);
@@ -40,7 +40,7 @@
     function initFileUpload(prefix){
         $("#add_bachPic").fileinput({
             language: 'zh',                                 //中文
-            uploadUrl:'<%=basePath%>/commodity/addCommodityPic',
+            uploadUrl:'/knowledge/updateKnowledge',
             showPreview: true,				//展前预览
             showUpload: false,				//不显示上传按钮
             showCaption: false,				//不显示文字表述
