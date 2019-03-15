@@ -243,6 +243,17 @@ public class FileServiceImpl implements FileService {
         StringBuffer docFileUrl=new StringBuffer();
         StringBuffer mp4FileUrl=new StringBuffer();
 
+        for (MultipartFile imgFile:imagePath) {
+            imgFile.transferTo(new File( filePath+imgFile.getOriginalFilename()));
+            imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
+            if(suffix.equals("jpg")||suffix.equals("png") ){
+                jpgFileUrl.append(filePath+imgFile.getOriginalFilename()+",");
+                log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
+                map.put("jpgPath",jpgFileUrl.toString());
+            }
+
+        }
+
         //检查form中是否有enctype="multipart/form-data"
         if(multipartResolver.isMultipart(request))
         {
@@ -252,7 +263,6 @@ public class FileServiceImpl implements FileService {
             Iterator iter=multiRequest.getFileNames();
             while(iter.hasNext())
             {
-                //一次遍历所有文件
                 MultipartFile file=multiRequest.getFile(iter.next().toString());
                 if(file!=null)
                 {
@@ -268,12 +278,13 @@ public class FileServiceImpl implements FileService {
                         docFileUrl.append(path+",");
                         log.info("doc文件的路径>>>>>>>>>>>>>>"+docFileUrl.toString());
                         map.put("docPath",docFileUrl.toString());
-                    }else if(suffix.equals("jpg") ||suffix.equals("png")){
-                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
-                        jpgFileUrl.append(path+",");
-                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
-                        map.put("jpgPath",jpgFileUrl.toString());
-                    }else if (suffix.equals("mp4")){
+                    }
+//                          else if(suffix.equals("jpg") ||suffix.equals("png")){
+//                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
+//                        jpgFileUrl.append(path+",");
+//                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
+//                        map.put("jpgPath",jpgFileUrl.toString());
+                    else if (suffix.equals("mp4")){
                         //该文件为mp4文件 ，给路径拼接“ ，”好用于同类型多文件
                         mp4FileUrl.append(path+",");
                         log.info("mp4文件的路径>>>>>>>>>>>>>>"+mp4FileUrl.toString());
