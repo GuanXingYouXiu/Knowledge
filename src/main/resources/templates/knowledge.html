@@ -200,6 +200,25 @@
             success: function (data) {
                 //这里的msg是json对象，不是json字符串。
                 $('#table').bootstrapTable('load', data);
+
+                var txtReportName = $("#keyword").val();
+                var reg = new RegExp(txtReportName, 'ig');
+                var tableId = document.getElementById("table");
+
+                if (txtReportName != null) {
+                    for (var i = 1; i < tableId.rows.length; i++) {
+                        for (var j = 1; j < tableId.rows[i].cells.length; j++) {
+                            var bb = tableId.rows[i].cells[j].innerHTML;
+                            console.log(bb);
+                            var displayColor = '<span style="color:#4e55ff">' + txtReportName + '</span>';
+                            var cc = bb.replace(reg, displayColor);
+                            tableId.rows[i].cells[j].innerHTML = cc;
+                        }
+
+                    }
+
+                }
+
             }
         });
     });
