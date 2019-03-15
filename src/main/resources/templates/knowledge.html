@@ -82,16 +82,25 @@
                         <div class="well-content" style="border:0px;">
                             <form id="form">
                                 <div class="form-group">
-                                    <div class="col-md-2"><input type="text" value="" id="ask" name="ask" placeholder="问题"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="keyword" name="keyword" placeholder="关键词"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="productName" name="productName" placeholder="商品名称"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="shopNum" name="shopNum" placeholder="商家编号"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="ask" name="ask"
+                                                                 placeholder="问题"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="keyword" name="keyword"
+                                                                 placeholder="关键词"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="productName"
+                                                                 name="productName" placeholder="商品名称"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="shopNum" name="shopNum"
+                                                                 placeholder="商家编号"></div>
                                     <select id="org">
                                         <option value="部门">部门</option>
-                                        <option th:each="model : ${orgs}" th:value="${model.getName()}" th:text="${model.getName()}"></option>
+                                        <option th:each="org : ${orgs}" th:value="${org.getName()}"
+                                                th:text="${org.getName()}"></option>
                                     </select>
-                                    <button th:type="button" class="btn btn-primary block full-width m-b" id="refresh_button">查询</button>
-                                    <button th:type="button" class="btn btn-primary block full-width m-b" id="reset_button">重置</button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="refresh_button">查询
+                                    </button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="reset_button">重置
+                                    </button>
                                 </div>
                                 <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span th:each="model:${knownledgeSorts}">
@@ -165,7 +174,6 @@
         $("#table").bootstrapTable('refresh');
     })
 
-
     $("#refresh_button").click(function () {
 
         var obj = document.getElementsByClassName("cboxonclick");
@@ -200,25 +208,32 @@
             success: function (data) {
                 //这里的msg是json对象，不是json字符串。
                 $('#table').bootstrapTable('load', data);
+                console.log(data);
 
-                var txtReportName = $("#keyword").val();
-                var reg = new RegExp(txtReportName, 'ig');
-                var tableId = document.getElementById("table");
+                var flag1 = $("#keyword").val() != undefined;
+                var flag2 = $("#keyword").val() != null;
+                var flag3 = $("#keyword").val() != '';
 
-                if (txtReportName != null) {
-                    for (var i = 1; i < tableId.rows.length; i++) {
-                        for (var j = 1; j < tableId.rows[i].cells.length; j++) {
-                            var bb = tableId.rows[i].cells[j].innerHTML;
-                            console.log(bb);
-                            var displayColor = '<span style="color:#4e55ff">' + txtReportName + '</span>';
-                            var cc = bb.replace(reg, displayColor);
-                            tableId.rows[i].cells[j].innerHTML = cc;
+                if ( flag1&&flag2&&flag3)  {
+                    var txtReportName =$("#keyword").val();
+                    var reg = new RegExp(txtReportName, 'ig');
+                    var tableId = document.getElementById("table");
+
+                    if (txtReportName != null) {
+                        for (var i = 1; i < tableId.rows.length; i++) {
+                            for (var j = 1; j < tableId.rows[i].cells.length; j++) {
+                                var bb = tableId.rows[i].cells[j].innerHTML;
+                                console.log(bb);
+                                var displayColor = '<span style="color:#4e55ff">' + txtReportName + '</span>';
+                                var cc = bb.replace(reg, displayColor);
+                                tableId.rows[i].cells[j].innerHTML = cc;
+                            }
+
                         }
 
                     }
 
                 }
-
             }
         });
     });
@@ -232,7 +247,7 @@
 
     window.operateEvents = {
         'click .icon-edit': function (e, value, row, index) {
-            window.location.href = "knowledge/queryKnowledgeById?Id="+row.id;
+            window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
         },
         'click .icon-trash': function (e, value, row, index) {
             alert(row.id);
@@ -256,7 +271,6 @@
         };
 
     };
-
 
     $(function () {
         $('#table').bootstrapTable({

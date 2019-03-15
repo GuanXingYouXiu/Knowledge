@@ -7,11 +7,24 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-
+    <!-- Le styles -->
     <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/stylesheet.css" rel="stylesheet">
     <link href="icon/font-awesome.css" rel="stylesheet">
 
 
+    <!-- Le fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.html">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.html">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.html">
+    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.html">
+
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <![endif]-->
     <style type="text/css">
         .input {
             width: 40px;
@@ -41,21 +54,17 @@
             margin-top: 12px;
             margin-left: 15px;
         }
-        #myModal {
-            top: 30%;
-            margin: auto;
-
-        }
     </style>
-    <link rel="stylesheet" href="/table/bootstrap.min.css">
-    <link rel="stylesheet" href="/table/bootstrap-table.css">
     <script src="/table/jquery.min.js"></script>
     <script src="/table/bootstrap.min.js"></script>
     <script src="/table/bootstrap-table.js"></script>
     <script src="/table/bootstrap-table-zh-CN.min.js"></script>
+    <link rel="stylesheet" href="/table/bootstrap.min.css">
+    <link rel="stylesheet" href="/table/bootstrap-table.css">
 </head>
 
 <body>
+
 
 <div id="content"> <!-- Content start -->
     <div class="inner_content">
@@ -64,7 +73,7 @@
                 <div class="span12">
                     <div class="daohanglink" style="">
                         <span class="daohang"></span>
-                        <span >首页</span><span>></span>
+                        <span>首页</span><span>></span>
                         <span>用户管理</span><span>></span>
                         <span>用户管理</span>
                         <a href="添加用户.html" class="label label-warning" style="float:right; margin:8px;">添加</a>
@@ -73,16 +82,25 @@
                         <div class="well-content" style="border:0px;">
                             <form id="form">
                                 <div class="form-group">
-                                    <div class="col-md-2"><input type="text" value="" id="ask" name="ask" placeholder="问题"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="keyword" name="keyword" placeholder="关键词"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="productName" name="productName" placeholder="商品名称"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="shopNum" name="shopNum" placeholder="商家编号"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="ask" name="ask"
+                                                                 placeholder="问题"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="keyword" name="keyword"
+                                                                 placeholder="关键词"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="productName"
+                                                                 name="productName" placeholder="商品名称"></div>
+                                    <div class="col-md-2"><input type="text" value="" id="shopNum" name="shopNum"
+                                                                 placeholder="商家编号"></div>
                                     <select id="org">
                                         <option value="部门">部门</option>
-                                        <option th:each="model : ${orgs}" th:value="${model.getName()}" th:text="${model.getName()}"></option>
+                                        <option th:each="model : ${orgs}" th:value="${model.getName()}"
+                                                th:text="${model.getName()}"></option>
                                     </select>
-                                    <button th:type="button" class="btn btn-primary block full-width m-b" id="refresh_button">查询</button>
-                                    <button th:type="button" class="btn btn-primary block full-width m-b" id="reset_button">重置</button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="refresh_button">查询
+                                    </button>
+                                    <button th:type="button" class="btn btn-primary block full-width m-b"
+                                            id="reset_button">重置
+                                    </button>
                                 </div>
                                 <div class="form-group">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     <span th:each="model:${knownledgeSorts}">
@@ -100,12 +118,58 @@
     </div>
 </div>
 
+<!-- Le javascript ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/jquery-ui-1.10.3.js"></script>
+<script src="js/bootstrap.js"></script>
+
+<script src="js/library/jquery.collapsible.min.js"></script>
+<script src="js/library/jquery.mCustomScrollbar.min.js"></script>
+<script src="js/library/jquery.mousewheel.min.js"></script>
+<script src="js/library/jquery.uniform.min.js"></script>
+
+
+<script src="js/library/jquery.sparkline.min.js"></script>
+<script src="js/library/chosen.jquery.min.js"></script>
+<script src="js/library/jquery.easytabs.js"></script>
+<script src="js/library/flot/excanvas.min.js"></script>
+<script src="js/library/flot/jquery.flot.js"></script>
+<script src="js/library/flot/jquery.flot.pie.js"></script>
+<script src="js/library/flot/jquery.flot.selection.js"></script>
+<script src="js/library/flot/jquery.flot.resize.js"></script>
+<script src="js/library/flot/jquery.flot.orderBars.js"></script>
+<script src="js/library/maps/jquery.vmap.js"></script>
+<script src="js/library/maps/maps/jquery.vmap.world.js"></script>
+<script src="js/library/maps/data/jquery.vmap.sampledata.js"></script>
+<script src="js/library/jquery.autosize-min.js"></script>
+<script src="js/library/charCount.js"></script>
+<script src="js/library/jquery.minicolors.js"></script>
+<script src="js/library/jquery.tagsinput.js"></script>
+<script src="js/library/fullcalendar.min.js"></script>
+<script src="js/library/footable/footable.js"></script>
+<script src="js/library/footable/data-generator.js"></script>
+
+<script src="js/library/bootstrap-datetimepicker.js"></script>
+<script src="js/library/bootstrap-timepicker.js"></script>
+<script src="js/library/bootstrap-datepicker.js"></script>
+<script src="js/library/bootstrap-fileupload.js"></script>
+<script src="js/library/jquery.inputmask.bundle.js"></script>
+
+<script src="js/library/jquery.dataTables.js"></script>
+
+<script src="js/flatpoint_core.js"></script>
+
+<script src="js/datatables.js"></script>
+
 <script>
 
 
     $("#reset_button").click(function () {
         document.getElementById("form").reset()
-        $("#table").bootstrapTable("refresh")
+        $("#table").bootstrapTable('refresh');
     })
 
 
@@ -118,6 +182,7 @@
                 sorts.push(obj[i].name);
             }
         }
+
 
         var ask = $("#ask").val();
         var keyWord = $("#keyword").val();
@@ -142,88 +207,111 @@
             success: function (data) {
                 //这里的msg是json对象，不是json字符串。
                 $('#table').bootstrapTable('load', data);
+
+                var txtReportName = $("#keyword").val();
+                var reg = new RegExp(txtReportName, 'ig');
+                var tableId = document.getElementById("table");
+
+                if (txtReportName != null) {
+                    for (var i = 1; i < tableId.rows.length; i++) {
+                        for (var j = 1; j < tableId.rows[i].cells.length; j++) {
+                            var bb = tableId.rows[i].cells[j].innerHTML;
+                            console.log(bb);
+                            var displayColor = '<span style="color:#4e55ff">' + txtReportName + '</span>';
+                            var cc = bb.replace(reg, displayColor);
+                            tableId.rows[i].cells[j].innerHTML = cc;
+                        }
+
+                    }
+
+                }
+
             }
         });
     });
 
     function operateFormatter(value, row, index) {
         return [
-            '<button type="button" class="btn icon-edit"  data-toggle="modal" data-target="#myModal" style="display:inline"/>&nbsp;',
-            '<button type="button" class="btn icon-trash"  data-toggle="modal" data-target="#myModal" style="display:inline"/>&nbsp;'
+            '<button type="button" class="btn icon-edit"  data-toggle="modal" style="display:inline"/>&nbsp;',
+            '<button type="button" class="btn icon-trash"  data-toggle="modal" style="display:inline"/>&nbsp;'
         ].join('');
     }
 
     window.operateEvents = {
         'click .icon-edit': function (e, value, row, index) {
-            alert(row.id);
+            window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
         },
         'click .icon-trash': function (e, value, row, index) {
             alert(row.id);
         }
     };
 
-    //请求成功方法
-    function responseHandler(result) {
-        var errcode = result.errcode;//在此做了错误代码的判断
-        if (errcode != 0) {
-            alert("错误代码" + errcode);
-            return;
-        }
+        //请求成功方法
+        function responseHandler(result) {
+            var errcode = result.errcode;//在此做了错误代码的判断
+            if (errcode != 0) {
+                alert("错误代码" + errcode);
+                return;
+            }
 
-        //如果没有错误则返回数据，渲染表格
-        console.log(result.data);
-        return {
-            total: result.total, //总页数,前面的key必须为"total"
-            row: result.row//行数据，前面的key要与之前设置的dataField的值一致.
+            //如果没有错误则返回数据，渲染表格
+            console.log(result.data);
+            return {
+                total: result.total, //总页数,前面的key必须为"total"
+                row: result.row//行数据，前面的key要与之前设置的dataField的值一致.
+
+            };
 
         };
 
-    };
 
-
-    $(function () {
-        $('#table').bootstrapTable({
-            url: '/knowledge/queryKnowledgeAll',
-            cache: false,
-            dataField: "row",
-            responseHandler: responseHandler,//请求数据成功后，渲染表格前的方法showFooter: true,//是否显示列脚
-            uniqueId: "id",//每一行的唯一标识，一般为主键列
-            columns: [{
-                field: 'id',
-                title: 'Item ID',
-                visible: false
-            }, {
-                field: 'dataOrg',
-                title: '部门',
-            }, {
-                field: 'shopNum',
-                title: '商家编号',
-            }, {
-                field: 'productName',
-                title: '商品名称',
-            }, {
-                field: 'sortName',
-                title: '分类',
-            }, {
-                field: 'productFactory',
-                title: '生产厂家',
-            }, {
-                field: 'ask',
-                title: '问题',
-            }, {
-                field: 'answer',
-                title: '回答',
-            }, {
-                field: 'operate',
-                title: '操作',
-                align: 'center',
-                width: 100,
-                clickToSelect: true,
-                formatter: operateFormatter,
-                events: operateEvents
-            }]
+        $(function () {
+            $('#table').bootstrapTable({
+                url: '/knowledge/queryKnowledgeAll',
+                pagination: true,
+                cache: false,
+                sidePagination: 'server',//指定服务器端分页
+                dataField: "row",
+                responseHandler: responseHandler,//请求数据成功后，渲染表格前的方法showFooter: true,//是否显示列脚
+                pageNumber: 1,//这默认页码
+                pageSize: 15, //每页的记录行数（*）
+                pageList: [5, 10, 25, 50],//可供选择的每页的行数（*）
+                uniqueId: "id",//每一行的唯一标识，一般为主键列
+                columns: [{
+                    field: 'id',
+                    title: 'Item ID',
+                    visible: false
+                }, {
+                    field: 'dataOrg',
+                    title: '部门',
+                }, {
+                    field: 'shopNum',
+                    title: '商家编号',
+                }, {
+                    field: 'productName',
+                    title: '商品名称',
+                }, {
+                    field: 'sortName',
+                    title: '分类',
+                }, {
+                    field: 'productFactory',
+                    title: '生产厂家',
+                }, {
+                    field: 'ask',
+                    title: '问题',
+                }, {
+                    field: 'answer',
+                    title: '回答',
+                }, {
+                    field: 'operate',
+                    title: '操作',
+                    align: 'center',
+                    width: 100,
+                    formatter: operateFormatter,
+                    events: operateEvents
+                }]
+            })
         })
-    })
 </script>
 </body>
 </html>

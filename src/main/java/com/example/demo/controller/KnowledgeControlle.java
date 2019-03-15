@@ -27,8 +27,13 @@ import java.util.Map;
  * @date: 2019-03-08
  */
 @Controller
-@RequestMapping("knowledge")
+    @RequestMapping("knowledge")
 public class KnowledgeControlle {
+
+    @GetMapping("fileupload")
+    public String upload(){
+        return "/fileupload";
+    }
 
     @Autowired
     private KnowledgeServiceImpl knowledgeService;
@@ -57,9 +62,6 @@ public class KnowledgeControlle {
 
         Integer star = 0;
         Integer pagesize =15;
-
-        System.out.printf(".........."+offset);
-        System.out.printf(".........."+limit);
 
         if (offset != null || limit != null) {
             star = Integer.valueOf(offset);
@@ -125,9 +127,10 @@ public class KnowledgeControlle {
     /**
      * 知识库数据修改操作
      */
-    @RequestMapping(value="updateKnowledge",method=RequestMethod.POST,produces={"application/json;charset=UTF-8"})
+    @PostMapping(value="updateKnowledge",produces={"application/json;charset=UTF-8"})
     @ResponseBody
     public void updateKnowledge(Knowledge knowledge,HttpServletRequest request){
+        Knowledge knowledge1 = knowledge;
         knowledgeService.updateKnowledge(knowledge,request);
     }
 
