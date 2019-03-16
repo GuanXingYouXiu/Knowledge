@@ -18,6 +18,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.expression.Ids;
 
+import javax.jws.WebParam;
 import javax.persistence.Id;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.print.attribute.HashPrintJobAttributeSet;
@@ -112,8 +113,8 @@ public class KnowledgeControlle {
      * 批量删除
      */
     @RequestMapping("deleteBatchByIds")
-    @ResponseBody
-    public String deleteBatchByIds(String Ids) {
+    public ModelAndView deleteBatchByIds(String Ids) {
+
         if(Ids!=null){
             List<String> ids = new ArrayList<>();
             String[]Stringids=Ids.split(",");
@@ -122,7 +123,10 @@ public class KnowledgeControlle {
             }
             knowledgeService.deleteBatchByIds(ids);
         }
-        return "succeeded";
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("massge");
+        modelAndView.addObject("massged", "删除成功");
+        return modelAndView;
     }
 
     /**
@@ -149,8 +153,7 @@ public class KnowledgeControlle {
      * 知识库数据修改操作
      */
     @PostMapping(value = "updateKnowledge")
-    @ResponseBody
-    public void updateKnowledge(@RequestParam(value = "id",required = false) String id,
+    public ModelAndView updateKnowledge(@RequestParam(value = "id",required = false) String id,
                                 @RequestParam(value = "productName",required = false) String productName,
                                 @RequestParam(value = "shopNum",required = false) String shopNum,
                                 @RequestParam(value = "sort",required = false) Integer sort,
@@ -171,13 +174,17 @@ public class KnowledgeControlle {
         knowledge.setAnswer(answer);
         knowledge.setDataOrg(dataOrg);
 
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("massge");
+
         if (StringUtil.isNotEmpty(id)) {
             knowledgeService.updateKnowledge(knowledge, request, imagePath);
+            modelAndView.addObject("massged","更新成功");
         } else {
             knowledgeService.addKnowledge(knowledge, request, imagePath);
+            modelAndView.addObject("massged", "添加成功");
         }
-
-
+        return modelAndView;
     }
 
 }
