@@ -19,7 +19,7 @@ public interface KnowledgeService {
     PageInfo<KnowledgeBean> queryKnowledgeAll(int pageNum, int pageSize,KnowledgeBean knowledgeBean);
 
     /** 添加知识库资料*/
-    void addKnowledge(Knowledge knowledge,HttpServletRequest request);
+    void addKnowledge(Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath)throws IOException;
 
     /** 根据id编号查询图片路径并根据路径下载图片*/
     String downloadFile(HttpServletRequest request, HttpServletResponse response,String path) throws UnsupportedEncodingException;

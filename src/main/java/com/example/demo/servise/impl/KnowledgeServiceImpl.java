@@ -57,16 +57,17 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         return knowledgeBeanAll;
     }
 
+
     @Override
-    public void addKnowledge(Knowledge knowledge,HttpServletRequest request){
-        Map map =fileService.handleFileUpload(request);
+    public void addKnowledge(Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath)throws IOException{
+        Map map =fileService.FileUploadAll(request,imagePath);
         String docPath= (String) map.get("docPath");
-        String imagePath= (String) map.get("jpgPath");
+        String jpgPath= (String) map.get("jpgPath");
         String videoPath= (String) map.get("mp4Path");
         String id=RandomUtil.getRandomString(8)+"-"+RandomUtil.getRandomString(4)+"-"+RandomUtil.getRandomString(4)
                 +"-"+RandomUtil.getRandomString(4)+"-"+RandomUtil.getRandomString(12);
         knowledge.setId(id);
-        knowledge.setImagePath(imagePath);
+        knowledge.setImagePath(jpgPath);
         knowledge.setDocPath(docPath);
         knowledge.setVideoPath(videoPath);
         //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"

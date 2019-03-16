@@ -163,11 +163,11 @@ public class KnowledgeControlle {
         knowledge.setProductFactory(productFactory);
         knowledge.setAsk(ask);
         knowledge.setAnswer(answer);
-        knowledgeService.updateKnowledge(knowledge, request,imagePath);
-
-
-
-        knowledgeService.addKnowledge(knowledge, request);
+        if (knowledge.getId()!=null){
+            knowledgeService.updateKnowledge(knowledge, request,imagePath);
+        }else{
+            knowledgeService.addKnowledge(knowledge,request,imagePath);
+        }
 
 
     }
