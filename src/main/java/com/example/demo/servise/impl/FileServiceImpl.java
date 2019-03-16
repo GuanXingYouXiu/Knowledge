@@ -38,19 +38,19 @@ public class FileServiceImpl implements FileService {
     private String zipPath;
 
     @Override
-    public String fileUpload(MultipartFile file)throws IOException {
+    public String fileUpload(MultipartFile file) throws IOException {
         try {
             if (file.isEmpty()) {
                 return "文件为空";
             }
             //获取文件名
             String fileName = file.getOriginalFilename();
-            log.info("上传的文件名：---"+fileName);
+            log.info("上传的文件名：---" + fileName);
             // 获取文件的后缀名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
-            log.info("上传文件的后缀名：--"+suffixName);
+            log.info("上传文件的后缀名：--" + suffixName);
             String path = filePath + fileName;
-            log.info("文件路径：--"+path);
+            log.info("文件路径：--" + path);
             File dest = new File(path);
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
@@ -58,9 +58,9 @@ public class FileServiceImpl implements FileService {
             }
             file.transferTo(dest);// 文件写入
             return path;
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return "文件上传失败";
@@ -138,12 +138,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response,String fileName ) throws UnsupportedEncodingException {
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String fileName) throws UnsupportedEncodingException {
         // 设置文件名，根据业务需要替换成要下载的文件名
         if (fileName != null) {
             //设置文件路径
-            File file = new File(filePath , fileName);
-            log.info(">>>>>>>"+file.getPath());
+            File file = new File(filePath, fileName);
+            log.info(">>>>>>>" + file.getPath());
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
                 response.setContentType("application/octet-stream");//告诉浏览器输出内容为流;设置了头文件才会有弹框;
@@ -154,7 +154,7 @@ public class FileServiceImpl implements FileService {
                 BufferedInputStream bis = null;
                 try {
                     fis = new FileInputStream(file);
-                    log.info("下载文件名>>>>>>>"+file.getName());
+                    log.info("下载文件名>>>>>>>" + file.getName());
                     bis = new BufferedInputStream(fis);
                     OutputStream os = response.getOutputStream();
                     int i = bis.read(buffer);
@@ -162,7 +162,7 @@ public class FileServiceImpl implements FileService {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    log.info(fileName+">>>>>>>success");
+                    log.info(fileName + ">>>>>>>success");
                     return "下载成功";
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -190,7 +190,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public String downloadFileMore(String imgPath) {
         //需要压缩的文件--包括文件地址和文件名
-        String[] path=imgPath.split(",");
+        String[] path = imgPath.split(",");
         // 要生成的压缩文件地址和文件名称
         File zipFile = new File(zipPath);
         ZipOutputStream zipStream = null;
@@ -233,68 +233,59 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public Map FileUploadAll(HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
-        CommonsMultipartResolver multipartResolver=new CommonsMultipartResolver(
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
                 request.getSession().getServletContext());
-        Map<String,String> map=new HashMap<>();
-        String fileName=null;
-        String suffix=null;
-        String path = null;
-        StringBuffer jpgFileUrl=new StringBuffer();
-        StringBuffer docFileUrl=new StringBuffer();
-        StringBuffer mp4FileUrl=new StringBuffer();
+        Map<String, String> map = new HashMap<>();
+        StringBuffer jpgFileUrl = new StringBuffer();
+        StringBuffer docFileUrl = new StringBuffer();
+        StringBuffer mp4FileUrl = new StringBuffer();
 
-        for (MultipartFile imgFile:imagePath) {
-            imgFile.transferTo(new File( filePath+imgFile.getOriginalFilename()));
-            String jpgssuffix=imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
-            if(jpgssuffix.equals("jpg")||jpgssuffix.equals("png") ){
-                jpgFileUrl.append(filePath+imgFile.getOriginalFilename()+",");
-                log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
-                map.put("jpgPath",jpgFileUrl.toString());
-            }
+        upLoadImg(imagePath, jpgFileUrl);
+        upLoadDocAndMp4(request, multipartResolver, docFileUrl, mp4FileUrl);
 
-        }
+        map.put("jpgPath", jpgFileUrl.toString());
+        map.put("docPath", docFileUrl.toString());
+        map.put("mp4Path", mp4FileUrl.toString());
+        return map;
+    }
 
+    private void upLoadDocAndMp4(HttpServletRequest request, CommonsMultipartResolver multipartResolver, StringBuffer docFileUrl, StringBuffer mp4FileUrl) throws IOException {
         //检查form中是否有enctype="multipart/form-data"
-        if(multipartResolver.isMultipart(request))
-        {
+        if (multipartResolver.isMultipart(request)) {
             //将request变成多部分request
-            MultipartHttpServletRequest multiRequest=(MultipartHttpServletRequest)request;
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
             //获取multiRequest 中所有的文件名
-            Iterator iter=multiRequest.getFileNames();
-            while(iter.hasNext())
-            {
-                MultipartFile file=multiRequest.getFile(iter.next().toString());
-                if(file!=null)
-                {
+            Iterator iter = multiRequest.getFileNames();
+            String fileName = null;
+            String suffix = null;
+            String path = null;
+            while (iter.hasNext()) {
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                if (file != null) {
                     fileName = file.getOriginalFilename();
-                    log.info("上传的文件名：---"+fileName);
-                    path=filePath+fileName;
-                    //上传
-                    file.transferTo(new File(path));
-                    //根据文件后缀名，对于不同类型文件做相关处理
+                    path = filePath + fileName;
                     suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    if(suffix.equals("doc")){
-                        //该文件为doc文件 ，给路径拼接“ ，”好用于同类型多文件
-                        docFileUrl.append(path+",");
-                        log.info("doc文件的路径>>>>>>>>>>>>>>"+docFileUrl.toString());
-                        map.put("docPath",docFileUrl.toString());
-                    }
-//                          else if(suffix.equals("jpg") ||suffix.equals("png")){
-//                        //该文件为jpg文件 ，给路径拼接“ ，”好用于同类型多文件
-//                        jpgFileUrl.append(path+",");
-//                        log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
-//                        map.put("jpgPath",jpgFileUrl.toString());
-                    else if (suffix.equals("mp4")){
-                        //该文件为mp4文件 ，给路径拼接“ ，”好用于同类型多文件
-                        mp4FileUrl.append(path+",");
-                        log.info("mp4文件的路径>>>>>>>>>>>>>>"+mp4FileUrl.toString());
-                        map.put("mp4Path",mp4FileUrl.toString());
-                    }else{
+                    if (suffix.equals("docx")) {
+                        file.transferTo(new File(path));
+                        docFileUrl.append(path + ",");
+                    } else if (suffix.equals("mp4")) {
+                        file.transferTo(new File(path));
+                        mp4FileUrl.append(path + ",");
+                    } else {
                         log.info(">>>>>>>>其他类型文件可以继续增加");
                     }
                 }
             }
         }
-        return map;
+    }
+
+    private void upLoadImg(MultipartFile[] imagePath, StringBuffer jpgFileUrl) throws IOException {
+        for (MultipartFile imgFile : imagePath) {
+            String jpgSuffix = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
+            if (jpgSuffix.equals("jpg") || jpgSuffix.equals("png")) {
+                imgFile.transferTo(new File(filePath + imgFile.getOriginalFilename()));
+                jpgFileUrl.append(filePath + imgFile.getOriginalFilename() + ",");
+            }
+        }
     }
 }

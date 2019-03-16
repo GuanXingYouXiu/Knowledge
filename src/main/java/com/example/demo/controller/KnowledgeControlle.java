@@ -16,7 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.expression.Ids;
 
+import javax.persistence.Id;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: KnowledgeControlle
@@ -81,15 +80,15 @@ public class KnowledgeControlle {
     }
 
 
-    /**
-     * 添加知识库资料（上传文件）
-     * 部门（data_org）、商品名称、商家编号、问题分类(sort)、生产厂家、答案、问题、上传的文件（视频、图片、文档）
-     */
-    @PostMapping("addKnowledge")
-    @ResponseBody
-    public void addKnowledge(Knowledge knowledge, HttpServletRequest request) {
-
-    }
+//    /**
+//     * 添加知识库资料（上传文件）
+//     * 部门（data_org）、商品名称、商家编号、问题分类(sort)、生产厂家、答案、问题、上传的文件（视频、图片、文档）
+//     */
+//    @PostMapping("addKnowledge")
+//    @ResponseBody
+//    public void addKnowledge(Knowledge knowledge, HttpServletRequest request) {
+//
+//    }
 
     /**
      * 下载知识库图片
@@ -112,11 +111,16 @@ public class KnowledgeControlle {
     /**
      * 批量删除
      */
-    @PostMapping("deleteBatchByIds")
+    @RequestMapping("deleteBatchByIds")
     @ResponseBody
-    public String deleteBatchByIds(@RequestBody List<String> Ids) {
+    public String deleteBatchByIds(String Ids) {
         if(Ids!=null){
-            knowledgeService.deleteBatchByIds(Ids);
+            List<String> ids = new ArrayList<>();
+            String[]Stringids=Ids.split(",");
+            for (int i = 0; i <Stringids.length ; i++) {
+                ids.add(Stringids[i]);
+            }
+            knowledgeService.deleteBatchByIds(ids);
         }
         return "succeeded";
     }
@@ -149,24 +153,28 @@ public class KnowledgeControlle {
     public void updateKnowledge(@RequestParam(value = "id",required = false) String id,
                                 @RequestParam(value = "productName",required = false) String productName,
                                 @RequestParam(value = "shopNum",required = false) String shopNum,
-                                @RequestParam(value = "sort",required = false) String sort,
+                                @RequestParam(value = "sort",required = false) Integer sort,
                                 @RequestParam(value = "productFactory",required = false) String productFactory,
                                 @RequestParam(value = "ask",required = false) String ask,
                                 @RequestParam(value = "answer",required = false) String answer,
+                                @RequestParam(value = "dataOrg",required = false) String dataOrg,
                                 @RequestParam MultipartFile[] imagePath,
                                 HttpServletRequest request) throws IOException {
         Knowledge knowledge = new Knowledge();
+
         knowledge.setId(id);
         knowledge.setProductName(productName);
         knowledge.setShopNum(shopNum);
-        knowledge.setShopNum(sort);
+        knowledge.setSort(sort);
         knowledge.setProductFactory(productFactory);
         knowledge.setAsk(ask);
         knowledge.setAnswer(answer);
-        if (knowledge.getId()!=null){
-            knowledgeService.updateKnowledge(knowledge, request,imagePath);
-        }else{
-            knowledgeService.addKnowledge(knowledge,request,imagePath);
+        knowledge.setDataOrg(dataOrg);
+
+        if (StringUtil.isNotEmpty(id)) {
+            knowledgeService.updateKnowledge(knowledge, request, imagePath);
+        } else {
+            knowledgeService.addKnowledge(knowledge, request, imagePath);
         }
 
 

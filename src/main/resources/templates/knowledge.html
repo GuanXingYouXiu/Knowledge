@@ -250,20 +250,11 @@
             window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
         },
         'click .icon-trash': function (e, value, row, index) {
+            var Ids = new Array();
             if (confirm("确认删除？")){
-                var Ids = new Array();
                 Ids.push(row.id);
-                $.ajax({
-                    url: "knowledge / deleteBatchByIds ? Ids" + ids,
-                    type: get,
-                    success: function (data) {
-                        if (data == 'succeeded') {
-                            alert("删除成功");
-                        } else {
-                            alert("删除失败");
-                        }
-                    }
-                });
+                window.location.href = "knowledge/deleteBatchByIds?Ids=" + Ids;
+
             }
         }
     };

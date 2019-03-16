@@ -51,50 +51,67 @@ public class KnowledgeServiceImpl implements KnowledgeService {
 
     @Override
     public PageInfo<KnowledgeBean> queryKnowledgeAll(int pageNum, int pageSize, KnowledgeBean knowledgeBean) {
-        PageHelper.startPage(pageNum,pageSize);
-        List<KnowledgeBean> knowledges =knowledgeMapper.queryKnowledgeAll(knowledgeBean);
-        PageInfo<KnowledgeBean> knowledgeBeanAll=new PageInfo<>(knowledges);
+        PageHelper.startPage(pageNum, pageSize);
+        List<KnowledgeBean> knowledges = knowledgeMapper.queryKnowledgeAll(knowledgeBean);
+        PageInfo<KnowledgeBean> knowledgeBeanAll = new PageInfo<>(knowledges);
         return knowledgeBeanAll;
     }
 
 
     @Override
-    public void addKnowledge(Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath)throws IOException{
-        Map map =fileService.FileUploadAll(request,imagePath);
-        String docPath= (String) map.get("docPath");
-        String jpgPath= (String) map.get("jpgPath");
-        String videoPath= (String) map.get("mp4Path");
-        String id=RandomUtil.getRandomString(8)+"-"+RandomUtil.getRandomString(4)+"-"+RandomUtil.getRandomString(4)
-                +"-"+RandomUtil.getRandomString(4)+"-"+RandomUtil.getRandomString(12);
+    public void addKnowledge(Knowledge knowledge, HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
+        Map map = fileService.FileUploadAll(request, imagePath);
+        String docPath = (String) map.get("docPath");
+        String jpgPath = (String) map.get("jpgPath");
+        String videoPath = (String) map.get("mp4Path");
+
+        String id = RandomUtil.getRandomString(8) + "-" + RandomUtil.getRandomString(4) + "-" + RandomUtil.getRandomString(4)
+                + "-" + RandomUtil.getRandomString(4) + "-" + RandomUtil.getRandomString(12);
         knowledge.setId(id);
+
+        knowledgeSet(knowledge, docPath, jpgPath, videoPath);
+
+        log.info("添加的时间》》》" + knowledge.getBuildTime());
+        log.info("当前时间》》》》" + System.currentTimeMillis());
+        knowledgeMapper.insertSelective(knowledge);
+    }
+
+    @Override
+    public void updateKnowledge(Knowledge knowledge, HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
+//        Map map =fileService.handleFileUpload(request);
+        Map map = fileService.FileUploadAll(request, imagePath);
+        String docPath = (String) map.get("docPath");
+        String jpgPath = (String) map.get("jpgPath");
+        String videoPath = (String) map.get("mp4Path");
+        knowledgeSet(knowledge, docPath, jpgPath, videoPath);
+        log.info("修改的时间》》》" + knowledge.getBuildTime());
+        log.info("当前时间》》》》" + System.currentTimeMillis());
+        knowledgeMapper.updateKnowledge(knowledge);
+    }
+
+    private void knowledgeSet(Knowledge knowledge, String docPath, String jpgPath, String videoPath) {
         knowledge.setImagePath(jpgPath);
         knowledge.setDocPath(docPath);
         knowledge.setVideoPath(videoPath);
         //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"
         Timestamp timestamp = new Timestamp(new Date().getTime());
         knowledge.setBuildTime(timestamp);
-
-        log.info("添加的时间》》》"+knowledge.getBuildTime());
-        log.info("当前时间》》》》"+System.currentTimeMillis());
-        knowledgeMapper.insertSelective(knowledge);
     }
 
     @Override
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response ,String path )throws UnsupportedEncodingException {
-//        String[] imgUrls=path.split(",");
-//        for (String imgUrl:imgUrls) {
-            int index = filePath.lastIndexOf("//");
-            String fileName=path.substring(index+2);
-            String result=fileService.downloadFile(request,response,fileName);
-            log.info(fileName+">>>>>>"+result);
-//        }
+    public String downloadFile(HttpServletRequest request, HttpServletResponse response, String path) throws UnsupportedEncodingException {
+
+        int index = filePath.lastIndexOf("//");
+        String fileName = path.substring(index + 2);
+        String result = fileService.downloadFile(request, response, fileName);
+        log.info(fileName + ">>>>>>" + result);
         return "success";
     }
 
     @Override
     public String downloadFileMore(String Id) {
         //需要压缩的文件--包括文件地址和文件名
-        String imgPath=knowledgeMapper.queryImgPathById(Id);
+        String imgPath = knowledgeMapper.queryImgPathById(Id);
         return fileService.downloadFileMore(imgPath);
     }
 
@@ -109,28 +126,10 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
     @Override
-    public void updateKnowledge(Knowledge knowledge,HttpServletRequest request,MultipartFile[] imagePath) throws IOException {
-//        Map map =fileService.handleFileUpload(request);
-        Map map =fileService.FileUploadAll(request,imagePath);
-        String docPath= (String) map.get("docPath");
-        String jpgPath= (String) map.get("jpgPath");
-        String videoPath= (String) map.get("mp4Path");
-        knowledge.setImagePath(jpgPath);
-        knowledge.setDocPath(docPath);
-        knowledge.setVideoPath(videoPath);
-        //得到一个timestamp格式的时间，存入mysql中的时间格式为"yyyy-MM-dd HH:mm:ss"
-        Timestamp timestamp = new Timestamp(new Date().getTime());
-        knowledge.setBuildTime(timestamp);
-        log.info("修改的时间》》》"+knowledge.getBuildTime());
-        log.info("当前时间》》》》"+System.currentTimeMillis());
-        knowledgeMapper.updateKnowledge(knowledge);
-    }
-
-    @Override
     public Map querySortAndOrg() {
-        Map map=new HashMap<>();
-        map.put("sort",knowledgeSortMapper.querySortAll());
-        map.put("org",orgMapper.queryOrgAll());
+        Map map = new HashMap<>();
+        map.put("sort", knowledgeSortMapper.querySortAll());
+        map.put("org", orgMapper.queryOrgAll());
         return map;
     }
 
