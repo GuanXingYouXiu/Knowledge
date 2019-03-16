@@ -264,15 +264,23 @@ public class FileServiceImpl implements FileService {
                 if (file != null) {
                     fileName = file.getOriginalFilename();
                     path = filePath + fileName;
-                    suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-                    if (suffix.equals("docx")) {
-                        file.transferTo(new File(path));
-                        docFileUrl.append(path + ",");
-                    } else if (suffix.equals("mp4")) {
-                        file.transferTo(new File(path));
-                        mp4FileUrl.append(path + ",");
-                    } else {
-                        log.info(">>>>>>>>其他类型文件可以继续增加");
+                    // 检测是否存在目录
+                    File dest = new File(path);
+                    if (!dest.getParentFile().exists()) {
+                        // 如果不存在就新建文件夹
+                        dest.getParentFile().mkdirs();
+                    }
+                    if(!path.equals(filePath)){
+                        suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+                        if (suffix.equals("docx")) {
+                            file.transferTo(new File(path));
+                            docFileUrl.append(path + ",");
+                        } else if (suffix.equals("mp4")) {
+                            file.transferTo(new File(path));
+                            mp4FileUrl.append(path + ",");
+                        } else {
+                            log.info(">>>>>>>>其他类型文件可以继续增加");
+                        }
                     }
                 }
             }
@@ -280,11 +288,20 @@ public class FileServiceImpl implements FileService {
     }
 
     private void upLoadImg(MultipartFile[] imagePath, StringBuffer jpgFileUrl) throws IOException {
+        String impPath=null;
         for (MultipartFile imgFile : imagePath) {
-            String jpgSuffix = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
-            if (jpgSuffix.equals("jpg") || jpgSuffix.equals("png")) {
-                imgFile.transferTo(new File(filePath + imgFile.getOriginalFilename()));
-                jpgFileUrl.append(filePath + imgFile.getOriginalFilename() + ",");
+            impPath=filePath + imgFile.getOriginalFilename();
+            File dest = new File(impPath);
+            if (!dest.getParentFile().exists()) {
+                // 如果不存在就新建文件夹
+                dest.getParentFile().mkdirs();
+            }
+            if(!impPath.equals(filePath)){
+                String jpgSuffix = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
+                if (jpgSuffix.equals("jpg") || jpgSuffix.equals("png")) {
+                    imgFile.transferTo(new File(impPath));
+                    jpgFileUrl.append(filePath + imgFile.getOriginalFilename() + ",");
+                }
             }
         }
     }

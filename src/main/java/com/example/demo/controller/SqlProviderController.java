@@ -55,7 +55,7 @@ public class SqlProviderController {
      * 查询所有Org
      */
     public String queryOrgAll(){
-        StringBuffer sql = new StringBuffer("select name,data_org from t_org where parent_id !=' ' ");
+        StringBuffer sql = new StringBuffer("select name,data_org as dataOrg from t_org where parent_id !=' ' ");
         return sql.toString();
     }
     /**
