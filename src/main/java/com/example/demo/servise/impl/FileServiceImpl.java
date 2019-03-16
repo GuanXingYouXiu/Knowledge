@@ -245,8 +245,8 @@ public class FileServiceImpl implements FileService {
 
         for (MultipartFile imgFile:imagePath) {
             imgFile.transferTo(new File( filePath+imgFile.getOriginalFilename()));
-            imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
-            if(suffix.equals("jpg")||suffix.equals("png") ){
+            String jpgssuffix=imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
+            if(jpgssuffix.equals("jpg")||jpgssuffix.equals("png") ){
                 jpgFileUrl.append(filePath+imgFile.getOriginalFilename()+",");
                 log.info("jpg、png文件的路径>>>>>>>>>>>>>>"+jpgFileUrl.toString());
                 map.put("jpgPath",jpgFileUrl.toString());

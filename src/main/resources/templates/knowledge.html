@@ -76,7 +76,7 @@
                         <span>首页</span><span>></span>
                         <span>用户管理</span><span>></span>
                         <span>用户管理</span>
-                        <a href="添加用户.html" class="label label-warning" style="float:right; margin:8px;">添加</a>
+                        <a href="knowledge/queryKnowledgeById" class="btn glyphicon-plus" style="float:right; margin:8px;">添加</a>
                     </div>
                     <div class="well brown">
                         <div class="well-content" style="border:0px;">
@@ -250,7 +250,21 @@
             window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
         },
         'click .icon-trash': function (e, value, row, index) {
-            alert(row.id);
+            if (confirm("确认删除？")){
+                var Ids = new Array();
+                Ids.push(row.id);
+                $.ajax({
+                    url: "knowledge / deleteBatchByIds ? Ids" + ids,
+                    type: get,
+                    success: function (data) {
+                        if (data == 'succeeded') {
+                            alert("删除成功");
+                        } else {
+                            alert("删除失败");
+                        }
+                    }
+                });
+            }
         }
     };
 

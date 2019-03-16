@@ -6,6 +6,7 @@ import com.example.demo.servise.impl.FileServiceImpl;
 import com.example.demo.servise.impl.KnowledgeServiceImpl;
 import com.example.demo.util.PageUtil;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -87,7 +88,7 @@ public class KnowledgeControlle {
     @PostMapping("addKnowledge")
     @ResponseBody
     public void addKnowledge(Knowledge knowledge, HttpServletRequest request) {
-        knowledgeService.addKnowledge(knowledge, request);
+
     }
 
     /**
@@ -113,8 +114,11 @@ public class KnowledgeControlle {
      */
     @PostMapping("deleteBatchByIds")
     @ResponseBody
-    public void deleteBatchByIds(@RequestBody List<String> Ids) {
-        knowledgeService.deleteBatchByIds(Ids);
+    public String deleteBatchByIds(@RequestBody List<String> Ids) {
+        if(Ids!=null){
+            knowledgeService.deleteBatchByIds(Ids);
+        }
+        return "succeeded";
     }
 
     /**
@@ -122,12 +126,18 @@ public class KnowledgeControlle {
      */
     @GetMapping("queryKnowledgeById")
     public ModelAndView queryKnowledgeById(String Id) {
+        Knowledge knowledge = null;
+        if (StringUtil.isEmpty(Id)){
+            knowledge = new Knowledge();
+        }else{
+            knowledge = knowledgeService.queryKnowledgeById(Id);
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("updata");
         Map map = knowledgeService.querySortAndOrg();
         modelAndView.addObject("orgs", map.get("org"));
         modelAndView.addObject("knownledgeSorts", map.get("sort"));
-        modelAndView.addObject("model", knowledgeService.queryKnowledgeById(Id));
+        modelAndView.addObject("model", knowledge);
         return modelAndView;
     }
 
@@ -154,6 +164,12 @@ public class KnowledgeControlle {
         knowledge.setAsk(ask);
         knowledge.setAnswer(answer);
         knowledgeService.updateKnowledge(knowledge, request,imagePath);
+
+
+
+        knowledgeService.addKnowledge(knowledge, request);
+
+
     }
 
 }
