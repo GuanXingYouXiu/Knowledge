@@ -2,29 +2,18 @@ package com.example.demo.controller;
 
 import com.example.demo.bean.KnowledgeBean;
 import com.example.demo.model.Knowledge;
-import com.example.demo.servise.impl.FileServiceImpl;
 import com.example.demo.servise.impl.KnowledgeServiceImpl;
 import com.example.demo.util.PageUtil;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
-import org.thymeleaf.expression.Ids;
 
-import javax.jws.WebParam;
-import javax.persistence.Id;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -39,10 +28,6 @@ import java.util.*;
 @RequestMapping("knowledge")
 public class KnowledgeControlle {
 
-    @GetMapping("fileupload")
-    public String upload() {
-        return "/fileupload";
-    }
 
     @Autowired
     private KnowledgeServiceImpl knowledgeService;
@@ -113,7 +98,8 @@ public class KnowledgeControlle {
      * 批量删除
      */
     @RequestMapping("deleteBatchByIds")
-    public ModelAndView deleteBatchByIds(String Ids) {
+    @ResponseBody
+    public String deleteBatchByIds(String Ids) {
 
         if(Ids!=null){
             List<String> ids = new ArrayList<>();
@@ -123,10 +109,10 @@ public class KnowledgeControlle {
             }
             knowledgeService.deleteBatchByIds(ids);
         }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("massge");
-        modelAndView.addObject("massged", "删除成功");
-        return modelAndView;
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("massge");
+//        modelAndView.addObject("massged", "删除成功");
+        return "删除成功";
     }
 
     /**
@@ -142,10 +128,24 @@ public class KnowledgeControlle {
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("updata");
+        List<String> imglist = new ArrayList<>();
+
+
+        if(StringUtil.isNotEmpty(Id)){
+            if (StringUtil.isNotEmpty(knowledge.getImagePath())) {
+                String imgurl = knowledge.getImagePath();
+                String[] imgs = imgurl.split(",");
+                for (int i = 0; i < imgs.length; i++) {
+                    imglist.add("/fileStores/" + imgs[i].substring(imgs[i].lastIndexOf("/") + 1));
+                }
+            }
+        }
+
         Map map = knowledgeService.querySortAndOrg();
         modelAndView.addObject("orgs", map.get("org"));
         modelAndView.addObject("knownledgeSorts", map.get("sort"));
         modelAndView.addObject("model", knowledge);
+        modelAndView.addObject("imglist", imglist);
         return modelAndView;
     }
 
@@ -153,7 +153,7 @@ public class KnowledgeControlle {
      * 知识库数据修改操作
      */
     @PostMapping(value = "updateKnowledge")
-    public ModelAndView updateKnowledge(@RequestParam(value = "id",required = false) String id,
+    public String updateKnowledge(@RequestParam(value = "id",required = false) String id,
                                 @RequestParam(value = "productName",required = false) String productName,
                                 @RequestParam(value = "shopNum",required = false) String shopNum,
                                 @RequestParam(value = "sort",required = false) Integer sort,
@@ -174,17 +174,12 @@ public class KnowledgeControlle {
         knowledge.setAnswer(answer);
         knowledge.setDataOrg(dataOrg);
 
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("massge");
-
         if (StringUtil.isNotEmpty(id)) {
             knowledgeService.updateKnowledge(knowledge, request, imagePath);
-            modelAndView.addObject("massged","更新成功");
         } else {
             knowledgeService.addKnowledge(knowledge, request, imagePath);
-            modelAndView.addObject("massged", "添加成功");
         }
-        return modelAndView;
+        return "redirect:/knowledge";
     }
 
 }

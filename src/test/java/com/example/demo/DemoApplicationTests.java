@@ -11,6 +11,10 @@ public class DemoApplicationTests {
 
     @Test
     public void contextLoads() {
+        System.out.println("....................................................................");
+        System.out.println(Thread.currentThread().getContextClassLoader().getResource("").toString());
+        System.out.println("....................................................................");
+
     }
 
 }

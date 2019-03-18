@@ -22,7 +22,7 @@ mybatis:
 
 #上传、下载的路径
 File:
-  filePath: D:\IdeaProjects\Knowledge\src\main\resources\fileStores\
+  filePath: D://IdeaProjects//Knowledge//src//main//resources//static//fileStores//
   zipPath: D:\Downloads\DownLoad.zip
 
 #showSql

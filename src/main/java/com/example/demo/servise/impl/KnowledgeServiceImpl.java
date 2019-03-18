@@ -5,6 +5,7 @@ import com.example.demo.mapper.KnowledgeMapper;
 import com.example.demo.mapper.KnowledgeSortMapper;
 import com.example.demo.mapper.OrgMapper;
 import com.example.demo.model.Knowledge;
+import com.example.demo.model.Org;
 import com.example.demo.servise.KnowledgeService;
 import com.example.demo.util.RandomUtil;
 import com.github.pagehelper.PageHelper;
@@ -19,10 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: KnowledgeServiceImpl
@@ -127,10 +125,26 @@ public class KnowledgeServiceImpl implements KnowledgeService {
 
     @Override
     public Map querySortAndOrg() {
+        List<Org> orgs = new ArrayList<>();
         Map map = new HashMap<>();
         map.put("sort", knowledgeSortMapper.querySortAll());
-        map.put("org", orgMapper.queryOrgAll());
+        map.put("org", getChild(orgMapper.queryOrgAll(), new ArrayList<Org>()));
         return map;
+    }
+
+
+    private List<Org> getChild(List<Org> orgs,List<Org>child){
+        List<Org> orgList = null;
+        for (Org org : orgs) {
+            if (org.getChild().size() == 0){
+                child.add(org);
+                orgList = child;
+            }else{
+                orgList = getChild(org.getChild(), child);
+            }
+
+        }
+        return orgList;
     }
 
 }

@@ -166,9 +166,14 @@
 
 <script src="js/datatables.js"></script>
 
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    ctxPath = /*[[@{/}]]*/ '';
+    /*]]>*/
+
+    console.info(ctxPath);
+</script>　
 <script>
-
-
     $("#reset_button").click(function () {
         document.getElementById("form").reset()
         $("#table").bootstrapTable('refresh');
@@ -206,9 +211,8 @@
                 sortList: sortList
             },
             success: function (data) {
-                //这里的msg是json对象，不是json字符串。
+
                 $('#table').bootstrapTable('load', data);
-                console.log(data);
 
                 var flag1 = $("#keyword").val() != undefined;
                 var flag2 = $("#keyword").val() != null;
@@ -221,10 +225,10 @@
 
                     if (txtReportName != null) {
                         for (var i = 1; i < tableId.rows.length; i++) {
-                            for (var j = 1; j < tableId.rows[i].cells.length; j++) {
+                            for (var j = 1; j < tableId.rows[i].cells.length-1; j++) {
                                 var bb = tableId.rows[i].cells[j].innerHTML;
                                 console.log(bb);
-                                var displayColor = '<span style="color:#4e55ff">' + txtReportName + '</span>';
+                                var displayColor = '<span style="color:#ff0523">' + txtReportName + '</span>';
                                 var cc = bb.replace(reg, displayColor);
                                 tableId.rows[i].cells[j].innerHTML = cc;
                             }
@@ -253,7 +257,10 @@
             var Ids = new Array();
             if (confirm("确认删除？")){
                 Ids.push(row.id);
-                window.location.href = "knowledge/deleteBatchByIds?Ids=" + Ids;
+                // window.location.href = "knowledge/deleteBatchByIds?Ids=" + Ids;
+                $.get("knowledge/deleteBatchByIds?Ids=" + Ids,function (data) {
+                    $("#table").bootstrapTable('refresh');
+                });
 
             }
         }
