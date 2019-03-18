@@ -10,6 +10,7 @@ import com.example.demo.servise.KnowledgeService;
 import com.example.demo.util.RandomUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,9 +60,12 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     @Override
     public void addKnowledge(Knowledge knowledge, HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
         Map map = fileService.FileUploadAll(request, imagePath);
-        String docPath = (String) map.get("docPath");
-        String jpgPath = (String) map.get("jpgPath");
-        String videoPath = (String) map.get("mp4Path");
+
+        Setdocandimgandmp4 setdocandimgandmp4 = new Setdocandimgandmp4(map).invoke();
+        String docPath = setdocandimgandmp4.getDocPath();
+        String jpgPath = setdocandimgandmp4.getJpgPath();
+        String videoPath = setdocandimgandmp4.getVideoPath();
+
 
         String id = RandomUtil.getRandomString(8) + "-" + RandomUtil.getRandomString(4) + "-" + RandomUtil.getRandomString(4)
                 + "-" + RandomUtil.getRandomString(4) + "-" + RandomUtil.getRandomString(12);
@@ -78,9 +82,12 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     public void updateKnowledge(Knowledge knowledge, HttpServletRequest request, MultipartFile[] imagePath) throws IOException {
 //        Map map =fileService.handleFileUpload(request);
         Map map = fileService.FileUploadAll(request, imagePath);
-        String docPath = (String) map.get("docPath");
-        String jpgPath = (String) map.get("jpgPath");
-        String videoPath = (String) map.get("mp4Path");
+
+        Setdocandimgandmp4 setdocandimgandmp4 = new Setdocandimgandmp4(map).invoke();
+        String docPath = setdocandimgandmp4.getDocPath();
+        String jpgPath = setdocandimgandmp4.getJpgPath();
+        String videoPath = setdocandimgandmp4.getVideoPath();
+
         knowledgeSet(knowledge, docPath, jpgPath, videoPath);
         log.info("修改的时间》》》" + knowledge.getBuildTime());
         log.info("当前时间》》》》" + System.currentTimeMillis());
@@ -147,4 +154,43 @@ public class KnowledgeServiceImpl implements KnowledgeService {
         return orgList;
     }
 
+    private class Setdocandimgandmp4 {
+        private Map map;
+        private String docPath;
+        private String jpgPath;
+        private String videoPath;
+
+        public Setdocandimgandmp4(Map map) {
+            this.map = map;
+        }
+
+        public String getDocPath() {
+            return docPath;
+        }
+
+        public String getJpgPath() {
+            return jpgPath;
+        }
+
+        public String getVideoPath() {
+            return videoPath;
+        }
+
+        public Setdocandimgandmp4 invoke() {
+            docPath = null;
+            jpgPath = null;
+            videoPath = null;
+
+            if(StringUtil.isNotEmpty((String) map.get("docPath"))){
+                docPath = (String) map.get("docPath");
+            }
+            if (StringUtil.isNotEmpty((String) map.get("jpgPath"))){
+                jpgPath = (String) map.get("jpgPath");
+            }
+            if (StringUtil.isNotEmpty((String) map.get("mp4Path"))){
+                videoPath = (String) map.get("mp4Path");
+            }
+            return this;
+        }
+    }
 }

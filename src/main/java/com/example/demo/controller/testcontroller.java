@@ -1,6 +1,12 @@
 package com.example.demo.controller;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -15,6 +21,29 @@ import java.util.Iterator;
 @Controller
 @RequestMapping("commodity")
 public class testcontroller {
+
+
+    @RequestMapping("todownloadhtml")
+    public String download(Model model){
+        model.addAttribute("img", "C://Users//23108//Desktop//Video.mp4");
+        return "download";
+    }
+
+    @RequestMapping("/download")
+    public ResponseEntity<byte[]> export(@RequestParam("strZipPath") String strZipPath) throws IOException {
+
+        String fileName = strZipPath.substring(strZipPath.lastIndexOf("//")+1);
+        String filePath = strZipPath.substring(0, strZipPath.lastIndexOf("//"));
+
+        HttpHeaders headers = new HttpHeaders();
+        File file = new File(filePath+"//"+fileName);
+
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", fileName);
+
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file), headers, HttpStatus.CREATED);
+    }
+
 
 
     @PostMapping("addCommodity")

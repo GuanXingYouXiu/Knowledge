@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/table/bootstrap.min.css">
+    <script src="/table/jquery.min.js"></script>
+    <script src="/table/bootstrap.min.js"></script>
+</head>
+<body>
+
+<form id="downloadfrom" method="post" action="/commodity/download">
+    <input name="strZipPath" th:value="${img}" type="hidden">
+    <input type="submit" value="文件下载">
+</form>
+
+</body>
+</html>

@@ -153,16 +153,17 @@ public class KnowledgeControlle {
      * 知识库数据修改操作
      */
     @PostMapping(value = "updateKnowledge")
-    public String updateKnowledge(@RequestParam(value = "id",required = false) String id,
-                                @RequestParam(value = "productName",required = false) String productName,
-                                @RequestParam(value = "shopNum",required = false) String shopNum,
-                                @RequestParam(value = "sort",required = false) Integer sort,
-                                @RequestParam(value = "productFactory",required = false) String productFactory,
-                                @RequestParam(value = "ask",required = false) String ask,
-                                @RequestParam(value = "answer",required = false) String answer,
-                                @RequestParam(value = "dataOrg",required = false) String dataOrg,
-                                @RequestParam MultipartFile[] imagePath,
-                                HttpServletRequest request) throws IOException {
+    public String updateKnowledge(@RequestParam(value = "id", required = false) String id,
+                                  @RequestParam(value = "productName", required = false) String productName,
+                                  @RequestParam(value = "shopNum", required = false) String shopNum,
+                                  @RequestParam(value = "sort", required = false) Integer sort,
+                                  @RequestParam(value = "productFactory", required = false) String productFactory,
+                                  @RequestParam(value = "ask", required = false) String ask,
+                                  @RequestParam(value = "answer", required = false) String answer,
+                                  @RequestParam(value = "dataOrg", required = false) String dataOrg,
+                                  @RequestParam MultipartFile[] imagePath,
+                                  HttpServletRequest request) throws IOException {
+
         Knowledge knowledge = new Knowledge();
 
         knowledge.setId(id);

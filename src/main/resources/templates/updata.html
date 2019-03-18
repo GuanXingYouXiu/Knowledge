@@ -129,16 +129,38 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="controls-row">
-                            <div class="col-md-12">
-                                <p><img class="col-md-3" th:height="200" th:width="200" th:each="img : ${imglist}" th:src="@{${img}}"></p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
+    <div class="panel">
+        <div class="panel-body">
+            <div class="controls-row">
+                <div class="col-md-12">
+                    <p><img class="col-md-3" th:height="200" th:width="200" th:each="img : ${imglist}"
+                            th:src="@{${img}}"></p>
+                </div>
+            </div>
+            <div class="controls-row">
+                <div class="col-md-12" th:if="!${model.getVideoPath().isEmpty()}">
+                    <form id="downloadmp4" method="post" action="/commodity/download">
+                        <input name="strZipPath" th:value="${model.getVideoPath()}" type="hidden">
+                        <input type="submit" value="下载视频">
+                    </form>
+                </div>
+                <div class="col-md-12"  th:if="!${model.getDocPath().isEmpty()}">
+                    <form id="downloaddoc" method="post" action="/commodity/download">
+                        <input name="strZipPath" th:value="${model.getDocPath()}" type="hidden">
+                        <input type="submit" value="下载文档">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -169,32 +191,32 @@
         // });
     }
 
-    //初始化文件上传插件
-    function initFileUpload(prefix) {
-        $("#add_bachPic").fileinput({
-            language: 'zh',                                 //中文
-            uploadUrl: '/knowledge/updateKnowledge',
-            showPreview: true,				//展前预览
-            showUpload: false,				//不显示上传按钮
-            showCaption: false,				//不显示文字表述
-            uploadAsync: false,                             //采用同步上传
-            removeFromPreviewOnError: true,                 //当文件不符合规则，就不显示预览
-            maxFileCount: 5,
-            maxFileSize: 1024 * 10,                          //单位为kb，如果为0表示不限制文件大小
-            allowedFileExtensions: ["jpg", "jpeg", "gif", "png", "bmp"],
-            // uploadExtraData: function (previewId, index) {   //额外参数 返回json数组
-            //     return {
-            //         'id': commId
-            //     };
-            // }
-        })/*.on("filebatchuploadsuccess", function (event, data) {	//当上传成功回调函数
-            var response = data.response;
-            if (response.resultCode == '0') {
-                $("#closedAddWin").click();
-                table.ajax.reload();
-            }
-        });*/
-    }
+    // //初始化文件上传插件
+    // function initFileUpload(prefix) {
+    //     $("#add_bachPic").fileinput({
+    //         language: 'zh',                                 //中文
+    //         uploadUrl: '/knowledge/updateKnowledge',
+    //         showPreview: true,				//展前预览
+    //         showUpload: false,				//不显示上传按钮
+    //         showCaption: false,				//不显示文字表述
+    //         uploadAsync: false,                             //采用同步上传
+    //         removeFromPreviewOnError: true,                 //当文件不符合规则，就不显示预览
+    //         maxFileCount: 5,
+    //         maxFileSize: 1024 * 10,                          //单位为kb，如果为0表示不限制文件大小
+    //         allowedFileExtensions: ["jpg", "jpeg", "gif", "png", "bmp"],
+    //         // uploadExtraData: function (previewId, index) {   //额外参数 返回json数组
+    //         //     return {
+    //         //         'id': commId
+    //         //     };
+    //         // }
+    //     })/*.on("filebatchuploadsuccess", function (event, data) {	//当上传成功回调函数
+    //         var response = data.response;
+    //         if (response.resultCode == '0') {
+    //             $("#closedAddWin").click();
+    //             table.ajax.reload();
+    //         }
+    //     });*/
+    // }
 
 
     function cancel() {
