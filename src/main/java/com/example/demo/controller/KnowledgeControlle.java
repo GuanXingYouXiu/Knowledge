@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
@@ -101,10 +104,10 @@ public class KnowledgeControlle {
     @ResponseBody
     public String deleteBatchByIds(String Ids) {
 
-        if(Ids!=null){
+        if (Ids != null) {
             List<String> ids = new ArrayList<>();
-            String[]Stringids=Ids.split(",");
-            for (int i = 0; i <Stringids.length ; i++) {
+            String[] Stringids = Ids.split(",");
+            for (int i = 0; i < Stringids.length; i++) {
                 ids.add(Stringids[i]);
             }
             knowledgeService.deleteBatchByIds(ids);
@@ -121,9 +124,9 @@ public class KnowledgeControlle {
     @GetMapping("queryKnowledgeById")
     public ModelAndView queryKnowledgeById(String Id) {
         Knowledge knowledge = null;
-        if (StringUtil.isEmpty(Id)){
+        if (StringUtil.isEmpty(Id)) {
             knowledge = new Knowledge();
-        }else{
+        } else {
             knowledge = knowledgeService.queryKnowledgeById(Id);
         }
         ModelAndView modelAndView = new ModelAndView();
@@ -131,7 +134,7 @@ public class KnowledgeControlle {
         List<String> imglist = new ArrayList<>();
 
 
-        if(StringUtil.isNotEmpty(Id)){
+        if (StringUtil.isNotEmpty(Id)) {
             if (StringUtil.isNotEmpty(knowledge.getImagePath())) {
                 String imgurl = knowledge.getImagePath();
                 String[] imgs = imgurl.split(",");
@@ -182,5 +185,41 @@ public class KnowledgeControlle {
         }
         return "redirect:/knowledge";
     }
+
+    private boolean upLoadDocAndMp4(HttpServletRequest request){
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+                request.getSession().getServletContext());
+        boolean flag = false;
+        if (multipartResolver.isMultipart(request)) {
+            MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+            Iterator iter = multiRequest.getFileNames();
+            while (iter.hasNext()) {
+                MultipartFile file = multiRequest.getFile(iter.next().toString());
+                if (file != null) {
+                    String fileName = file.getOriginalFilename();
+                    String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+                    if (suffix.equals("docx") || suffix.equals("doc")) {
+                        flag = false;
+                    } else if (suffix.equals("mp4")) {
+                        flag = true;
+                    }
+                }
+            }
+        }
+        return flag;
+    }
+
+    private boolean upLoadImg(MultipartFile[] imagePath){
+        boolean flag = false;
+        for (MultipartFile imgFile : imagePath) {
+            String filename = imgFile.getOriginalFilename();
+            String jpgSuffix = imgFile.getOriginalFilename().substring(imgFile.getOriginalFilename().lastIndexOf(".") + 1);
+            if (jpgSuffix.equals("jpg") || jpgSuffix.equals("png")) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
 
 }

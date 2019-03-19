@@ -7,24 +7,6 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="css/stylesheet.css" rel="stylesheet">
-    <link href="icon/font-awesome.css" rel="stylesheet">
-
-
-    <!-- Le fav and touch icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144-precomposed.html">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114-precomposed.html">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.html">
-    <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.html">
-
-
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-    <script src="js/html5shiv.js"></script>
-    <![endif]-->
     <style type="text/css">
         .input {
             width: 40px;
@@ -56,7 +38,7 @@
         }
     </style>
     <script src="/table/jquery.min.js"></script>
-    <!--<script src="/table/bootstrap.min.js"></script>-->
+    <script src="/table/bootstrap.min.js"></script>
     <script src="/table/bootstrap-table.js"></script>
     <script src="/table/bootstrap-table-zh-CN.min.js"></script>
     <link rel="stylesheet" href="/table/bootstrap.min.css">
@@ -64,6 +46,28 @@
 </head>
 
 <body>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">商品图片展示</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <div id="content"> <!-- Content start -->
     <div class="inner_content">
@@ -75,25 +79,33 @@
                         <span>首页</span><span>></span>
                         <span>用户管理</span><span>></span>
                         <span>用户管理</span>
-                        <a href="knowledge/queryKnowledgeById" class="btn glyphicon-plus" style="float:right; margin:8px;">添加</a>
+                        <a href="knowledge/queryKnowledgeById" class="btn glyphicon-plus"
+                           style="float:right; margin:8px;">添加</a>
                     </div>
                     <div class="well brown">
                         <div class="well-content" style="border:0px;">
                             <form id="form">
                                 <div class="form-group">
-                                    <div class="col-md-2"><input type="text" value="" id="ask" name="ask"
-                                                                 placeholder="问题"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="keyword" name="keyword"
-                                                                 placeholder="关键词"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="productName"
-                                                                 name="productName" placeholder="商品名称"></div>
-                                    <div class="col-md-2"><input type="text" value="" id="shopNum" name="shopNum"
-                                                                 placeholder="商家编号"></div>
-                                    <select id="org">
-                                        <option value="部门">部门</option>
-                                        <option th:each="org : ${orgs}" th:value="${org.getName()}"
-                                                th:text="${org.getName()}"></option>
-                                    </select>
+                                    <div class="col-md-2">
+                                        <input class="form-control" type="text" value="" id="ask" name="ask"
+                                               placeholder="问题"></div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" type="text" value="" id="keyword" name="keyword"
+                                               placeholder="关键词"></div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" type="text" value="" id="productName"
+                                               name="productName" placeholder="商品名称"></div>
+                                    <div class="col-md-2">
+                                        <input class="form-control" type="text" value="" id="shopNum" name="shopNum"
+                                               placeholder="商家编号"></div>
+                                    <div class="col-md-2">
+                                        <select id="org">
+                                            <option value="部门">部门</option>
+                                            <option th:each="org : ${orgs}" th:value="${org.getName()}"
+                                                    th:text="${org.getName()}">
+                                            </option>
+                                        </select>
+                                    </div>
                                     <button th:type="button" class="btn btn-primary block full-width m-b"
                                             id="refresh_button">查询
                                     </button>
@@ -114,56 +126,10 @@
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
 
-<!-- Le javascript ================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-
-<script src="js/jquery-1.10.2.js"></script>
-<script src="js/jquery-ui-1.10.3.js"></script>
-<script src="js/bootstrap.js"></script>
-
-<script src="js/library/jquery.collapsible.min.js"></script>
-<script src="js/library/jquery.mCustomScrollbar.min.js"></script>
-<script src="js/library/jquery.mousewheel.min.js"></script>
-<script src="js/library/jquery.uniform.min.js"></script>
-
-
-<script src="js/library/jquery.sparkline.min.js"></script>
-<script src="js/library/chosen.jquery.min.js"></script>
-<script src="js/library/jquery.easytabs.js"></script>
-<script src="js/library/flot/excanvas.min.js"></script>
-<script src="js/library/flot/jquery.flot.js"></script>
-<script src="js/library/flot/jquery.flot.pie.js"></script>
-<script src="js/library/flot/jquery.flot.selection.js"></script>
-<script src="js/library/flot/jquery.flot.resize.js"></script>
-<script src="js/library/flot/jquery.flot.orderBars.js"></script>
-<script src="js/library/maps/jquery.vmap.js"></script>
-<script src="js/library/maps/maps/jquery.vmap.world.js"></script>
-<script src="js/library/maps/data/jquery.vmap.sampledata.js"></script>
-<script src="js/library/jquery.autosize-min.js"></script>
-<script src="js/library/charCount.js"></script>
-<script src="js/library/jquery.minicolors.js"></script>
-<script src="js/library/jquery.tagsinput.js"></script>
-<script src="js/library/fullcalendar.min.js"></script>
-<script src="js/library/footable/footable.js"></script>
-<script src="js/library/footable/data-generator.js"></script>
-
-<script src="js/library/bootstrap-datetimepicker.js"></script>
-<script src="js/library/bootstrap-timepicker.js"></script>
-<script src="js/library/bootstrap-datepicker.js"></script>
-<script src="js/library/bootstrap-fileupload.js"></script>
-<script src="js/library/jquery.inputmask.bundle.js"></script>
-
-<script src="js/library/jquery.dataTables.js"></script>
-
-<script src="js/flatpoint_core.js"></script>
-
-<script src="js/datatables.js"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
@@ -171,7 +137,8 @@
     /*]]>*/
 
     console.info(ctxPath);
-</script>　
+</script>
+　
 <script>
     $("#reset_button").click(function () {
         document.getElementById("form").reset()
@@ -217,14 +184,14 @@
                 var flag2 = $("#keyword").val() != null;
                 var flag3 = $("#keyword").val() != '';
 
-                if ( flag1&&flag2&&flag3)  {
-                    var txtReportName =$("#keyword").val();
+                if (flag1 && flag2 && flag3) {
+                    var txtReportName = $("#keyword").val();
                     var reg = new RegExp(txtReportName, 'ig');
                     var tableId = document.getElementById("table");
 
                     if (txtReportName != null) {
                         for (var i = 1; i < tableId.rows.length; i++) {
-                            for (var j = 1; j < tableId.rows[i].cells.length-1; j++) {
+                            for (var j = 1; j < tableId.rows[i].cells.length - 1; j++) {
                                 var bb = tableId.rows[i].cells[j].innerHTML;
                                 console.log(bb);
                                 var displayColor = '<span style="color:#ff0523">' + txtReportName + '</span>';
@@ -243,27 +210,51 @@
 
     function operateFormatter(value, row, index) {
         return [
-            '<button type="button" class="btn icon-edit"  data-toggle="modal" style="display:inline"/>&nbsp;',
-            '<button type="button" class="btn icon-trash"  data-toggle="modal" style="display:inline"/>&nbsp;'
+            '<span  class="glyphicon glyphicon-pencil"  data-toggle="modal" style="display:inline"/>&nbsp;',
+            '<span  class="glyphicon glyphicon-trash"  data-toggle="modal" style="display:inline"/>&nbsp;'
         ].join('');
     }
 
     window.operateEvents = {
-        'click .icon-edit': function (e, value, row, index) {
+        'click .glyphicon-pencil': function (e, value, row, index) {
             window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
         },
-        'click .icon-trash': function (e, value, row, index) {
+        'click .glyphicon-trash': function (e, value, row, index) {
             var Ids = new Array();
-            if (confirm("确认删除？")){
+            if (confirm("确认删除？")) {
                 Ids.push(row.id);
                 // window.location.href = "knowledge/deleteBatchByIds?Ids=" + Ids;
-                $.get("knowledge/deleteBatchByIds?Ids=" + Ids,function (data) {
+                $.get("knowledge/deleteBatchByIds?Ids=" + Ids, function (data) {
                     $("#table").bootstrapTable('refresh');
                 });
 
             }
         }
     };
+
+    function showproduct(value, row, index) {
+        return [
+            '<span class="show">'+row.productName+'</span>&nbsp;'
+        ].join('');
+    }
+
+
+    window.show={
+        'mouseover .show':function (e, value, row, index) {
+            $(".modal-body").empty();
+            var imgs = row.imagePath.split(",");
+            for (var i = 0; i < imgs.length - 1; i++) {
+                var index = imgs[i].lastIndexOf("//") + 1;
+                var img = imgs[i].substr(index);
+                img = 'fileStores' + img;
+                $(".modal-body").append("<img height='200' width='200' src='"+img+"'>");
+
+            }
+            if (imgs.length>1) {
+                $("#myModal").modal("show");
+            }
+        }
+    }
 
     //请求成功方法
     function responseHandler(result) {
@@ -308,6 +299,8 @@
             }, {
                 field: 'productName',
                 title: '商品名称',
+                formatter: showproduct,
+                events: show
             }, {
                 field: 'sortName',
                 title: '分类',

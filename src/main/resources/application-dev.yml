@@ -1,6 +1,6 @@
 #端口号
 server:
-  port: 9080
+  port: 8080
 
 #数据库配置
 spring:
@@ -22,7 +22,7 @@ mybatis:
 
 #上传、下载的路径
 File:
-  filePath: D://IdeaProjects//Knowledge//src//main//resources//static//fileStores//
+  filePath: D:\\static\\fileStores\\
   zipPath: D:\Downloads\DownLoad.zip
 
 #showSql
