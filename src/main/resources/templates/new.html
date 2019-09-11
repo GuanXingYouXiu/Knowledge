@@ -246,72 +246,72 @@
         }
     };
 
-        //请求成功方法
-        function responseHandler(result) {
-            var errcode = result.errcode;//在此做了错误代码的判断
-            if (errcode != 0) {
-                alert("错误代码" + errcode);
-                return;
-            }
+    //请求成功方法
+    function responseHandler(result) {
+        var errcode = result.errcode;//在此做了错误代码的判断
+        if (errcode != 0) {
+            alert("错误代码" + errcode);
+            return;
+        }
 
-            //如果没有错误则返回数据，渲染表格
-            console.log(result.data);
-            return {
-                total: result.total, //总页数,前面的key必须为"total"
-                row: result.row//行数据，前面的key要与之前设置的dataField的值一致.
-
-            };
+        //如果没有错误则返回数据，渲染表格
+        console.log(result.data);
+        return {
+            total: result.total, //总页数,前面的key必须为"total"
+            row: result.row//行数据，前面的key要与之前设置的dataField的值一致.
 
         };
 
+    };
 
-        $(function () {
-            $('#table').bootstrapTable({
-                url: '/knowledge/queryKnowledgeAll',
-                pagination: true,
-                cache: false,
-                sidePagination: 'server',//指定服务器端分页
-                dataField: "row",
-                responseHandler: responseHandler,//请求数据成功后，渲染表格前的方法showFooter: true,//是否显示列脚
-                pageNumber: 1,//这默认页码
-                pageSize: 15, //每页的记录行数（*）
-                pageList: [5, 10, 25, 50],//可供选择的每页的行数（*）
-                uniqueId: "id",//每一行的唯一标识，一般为主键列
-                columns: [{
-                    field: 'id',
-                    title: 'Item ID',
-                    visible: false
-                }, {
-                    field: 'dataOrg',
-                    title: '部门',
-                }, {
-                    field: 'shopNum',
-                    title: '商家编号',
-                }, {
-                    field: 'productName',
-                    title: '商品名称',
-                }, {
-                    field: 'sortName',
-                    title: '分类',
-                }, {
-                    field: 'productFactory',
-                    title: '生产厂家',
-                }, {
-                    field: 'ask',
-                    title: '问题',
-                }, {
-                    field: 'answer',
-                    title: '回答',
-                }, {
-                    field: 'operate',
-                    title: '操作',
-                    align: 'center',
-                    width: 100,
-                    formatter: operateFormatter,
-                    events: operateEvents
-                }]
-            })
+
+    $(function () {
+        $('#table').bootstrapTable({
+            url: '/knowledge/queryKnowledgeAll',
+            pagination: true,
+            cache: false,
+            sidePagination: 'server',//指定服务器端分页
+            dataField: "row",
+            responseHandler: responseHandler,//请求数据成功后，渲染表格前的方法showFooter: true,//是否显示列脚
+            pageNumber: 1,//这默认页码
+            pageSize: 15, //每页的记录行数（*）
+            pageList: [5, 10, 25, 50],//可供选择的每页的行数（*）
+            uniqueId: "id",//每一行的唯一标识，一般为主键列
+            columns: [{
+                field: 'id',
+                title: 'Item ID',
+                visible: false
+            }, {
+                field: 'dataOrg',
+                title: '部门',
+            }, {
+                field: 'shopNum',
+                title: '商家编号',
+            }, {
+                field: 'productName',
+                title: '商品名称',
+            }, {
+                field: 'sortName',
+                title: '分类',
+            }, {
+                field: 'productFactory',
+                title: '生产厂家',
+            }, {
+                field: 'ask',
+                title: '问题',
+            }, {
+                field: 'answer',
+                title: '回答',
+            }, {
+                field: 'operate',
+                title: '操作',
+                align: 'center',
+                width: 100,
+                formatter: operateFormatter,
+                events: operateEvents
+            }]
         })
+    })
 </script>
 </body>
 </html>

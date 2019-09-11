@@ -37,16 +37,15 @@
             margin-left: 15px;
         }
     </style>
-    <script src="/table/jquery.min.js"></script>
-    <script src="/table/bootstrap.min.js"></script>
-    <script src="/table/bootstrap-table.js"></script>
-    <script src="/table/bootstrap-table-zh-CN.min.js"></script>
-    <link rel="stylesheet" href="/table/bootstrap.min.css">
-    <link rel="stylesheet" href="/table/bootstrap-table.css">
+    <script th:src="@{/table/jquery.min.js}"></script>
+    <script th:src="@{/table/bootstrap.min.js}"></script>
+    <script th:src="@{/table/bootstrap-table.js}"></script>
+    <script th:src="@{/table/bootstrap-table-zh-CN.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/table/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/table/bootstrap-table.css}">
 </head>
 
 <body>
-
 
 
 <!-- Modal -->
@@ -54,7 +53,8 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
                 <h4 class="modal-title" id="myModalLabel">商品图片展示</h4>
             </div>
             <div class="modal-body">
@@ -68,7 +68,6 @@
 </div>
 
 
-
 <div id="content"> <!-- Content start -->
     <div class="inner_content">
         <div class="widgets_area">
@@ -79,7 +78,7 @@
                         <span>首页</span><span>></span>
                         <span>用户管理</span><span>></span>
                         <span>用户管理</span>
-                        <a href="knowledge/queryKnowledgeById" class="btn glyphicon-plus"
+                        <a th:href="@{knowledge/queryKnowledgeById}" class="btn glyphicon-plus"
                            style="float:right; margin:8px;">添加</a>
                     </div>
                     <div class="well brown">
@@ -166,7 +165,7 @@
 
         $.ajax({
             type: "post",
-            url: "/knowledge/queryKnowledgeAll",
+            url: "/queryKnowledgeAll",
             traditional: true,//防止深度序列化
             data: {
                 ask: ask,
@@ -217,7 +216,7 @@
 
     window.operateEvents = {
         'click .glyphicon-pencil': function (e, value, row, index) {
-            window.location.href = "knowledge/queryKnowledgeById?Id=" + row.id;
+            window.location.href = "/queryKnowledgeById?Id=" + row.id;
         },
         'click .glyphicon-trash': function (e, value, row, index) {
             var Ids = new Array();
@@ -234,23 +233,23 @@
 
     function showproduct(value, row, index) {
         return [
-            '<span class="show">'+row.productName+'</span>&nbsp;'
+            '<span class="show">' + row.productName + '</span>&nbsp;'
         ].join('');
     }
 
 
-    window.show={
-        'mouseover .show':function (e, value, row, index) {
+    window.show = {
+        'mouseover .show': function (e, value, row, index) {
             $(".modal-body").empty();
             var imgs = row.imagePath.split(",");
             for (var i = 0; i < imgs.length - 1; i++) {
                 var index = imgs[i].lastIndexOf("//") + 1;
                 var img = imgs[i].substr(index);
                 img = 'fileStores' + img;
-                $(".modal-body").append("<img height='200' width='200' src='"+img+"'>");
+                $(".modal-body").append("<img height='200' width='200' src='" + img + "'>");
 
             }
-            if (imgs.length>1) {
+            if (imgs.length > 1) {
                 $("#myModal").modal("show");
             }
         }

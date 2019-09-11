@@ -16,7 +16,7 @@ import javax.servlet.MultipartConfigElement;
 public class MultipartConfig {
 
     @Bean
-    public MultipartConfigElement multipartConfigElement(){
+    public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         // 置文件大小限制 ,超出此大小页面会抛出异常信息
         factory.setMaxFileSize("2MB"); //KB,MB

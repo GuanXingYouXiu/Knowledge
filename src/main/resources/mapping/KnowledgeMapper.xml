@@ -1,233 +1,235 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.example.demo.mapper.KnowledgeMapper" >
-  <resultMap id="BaseResultMap" type="com.example.demo.model.Knowledge" >
-    <constructor >
-      <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="ask" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="data_org" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="image_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shop_num" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="video_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="doc_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="build_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="product_factory" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="group_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-    </constructor>
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.Knowledge" >
-    <constructor >
-      <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="ask" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="data_org" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="image_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="shop_num" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="video_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="doc_path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="build_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="product_factory" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="group_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="answer" jdbcType="LONGVARCHAR" javaType="java.lang.String" />
-    </constructor>
-  </resultMap>
+<mapper namespace="com.example.demo.mapper.KnowledgeMapper">
+    <resultMap id="BaseResultMap" type="com.example.demo.model.Knowledge">
+        <constructor>
+            <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ask" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="data_org" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="image_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="shop_num" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="video_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="doc_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="build_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="product_factory" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="group_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+        </constructor>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.example.demo.model.Knowledge">
+        <constructor>
+            <arg column="id" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ask" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="data_org" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="image_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="shop_num" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="product_name" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="video_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="doc_path" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="build_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="product_factory" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="sort" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="group_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+            <arg column="answer" jdbcType="LONGVARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
 
-  <!-- 配置KnowledgeBean的返回映射-->
-  <resultMap id="ResultMapKnowledgeBean" type="com.example.demo.bean.KnowledgeBean" >
-      <result column="id" property="id" jdbcType="VARCHAR"  />
-      <result column="ask" property="ask" jdbcType="VARCHAR"  />
-      <result column="shop_num" property="shopNum" jdbcType="VARCHAR"  />
-      <result column="product_name" property="productName" jdbcType="VARCHAR"  />
-      <result column="answer" property="answer" jdbcType="LONGVARCHAR"  />
-      <result column="image_path" property="imagePath" jdbcType="LONGVARCHAR"  />
-      <result column="sort" property="sortName" jdbcType="VARCHAR" />
-      <result column="name" property="dataOrg" jdbcType="VARCHAR"  />
-      <result column="product_factory" property="productFactory" jdbcType="VARCHAR"  />
+    <!-- 配置KnowledgeBean的返回映射-->
+    <resultMap id="ResultMapKnowledgeBean" type="com.example.demo.bean.KnowledgeBean">
+        <result column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ask" property="ask" jdbcType="VARCHAR"/>
+        <result column="shop_num" property="shopNum" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="answer" property="answer" jdbcType="LONGVARCHAR"/>
+        <result column="image_path" property="imagePath" jdbcType="LONGVARCHAR"/>
+        <result column="sort" property="sortName" jdbcType="VARCHAR"/>
+        <result column="name" property="dataOrg" jdbcType="VARCHAR"/>
+        <result column="product_factory" property="productFactory" jdbcType="VARCHAR"/>
 
-  </resultMap>
+    </resultMap>
 
 
-  <sql id="Blob_Column_List" >
-    answer
-  </sql>
-  <insert id="insert" parameterType="com.example.demo.model.Knowledge" >
-    insert into t_knowledge (id, ask, data_org, 
-      image_path, shop_num, product_name, 
-      video_path, doc_path, build_time, 
-      product_factory, sort, group_id, 
-      answer)
-    values (#{id,jdbcType=VARCHAR}, #{ask,jdbcType=VARCHAR}, #{dataOrg,jdbcType=VARCHAR}, 
-      #{imagePath,jdbcType=VARCHAR}, #{shopNum,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
-      #{videoPath,jdbcType=VARCHAR}, #{docPath,jdbcType=VARCHAR}, #{buildTime,jdbcType=TIMESTAMP}, 
-      #{productFactory,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER}, 
-      #{answer,jdbcType=LONGVARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.model.Knowledge" >
-    insert into t_knowledge
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="ask != null" >
-        ask,
-      </if>
-      <if test="dataOrg != null" >
-        data_org,
-      </if>
-      <if test="imagePath != null" >
-        image_path,
-      </if>
-      <if test="shopNum != null" >
-        shop_num,
-      </if>
-      <if test="productName != null" >
-        product_name,
-      </if>
-      <if test="videoPath != null" >
-        video_path,
-      </if>
-      <if test="docPath != null" >
-        doc_path,
-      </if>
-      <if test="buildTime != null" >
-        build_time,
-      </if>
-      <if test="productFactory != null" >
-        product_factory,
-      </if>
-      <if test="sort != null" >
-        sort,
-      </if>
-      <if test="groupId != null" >
-        group_id,
-      </if>
-      <if test="answer != null" >
-        answer,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="ask != null" >
-        #{ask,jdbcType=VARCHAR},
-      </if>
-      <if test="dataOrg != null" >
-        #{dataOrg,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath != null" >
-        #{imagePath,jdbcType=VARCHAR},
-      </if>
-      <if test="shopNum != null" >
-        #{shopNum,jdbcType=VARCHAR},
-      </if>
-      <if test="productName != null" >
-        #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="videoPath != null" >
-        #{videoPath,jdbcType=VARCHAR},
-      </if>
-      <if test="docPath != null" >
-        #{docPath,jdbcType=VARCHAR},
-      </if>
-      <if test="buildTime != null" >
-        #{buildTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="productFactory != null" >
-        #{productFactory,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        #{sort,jdbcType=INTEGER},
-      </if>
-      <if test="groupId != null" >
-        #{groupId,jdbcType=INTEGER},
-      </if>
-      <if test="answer != null" >
-        #{answer,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
+    <sql id="Blob_Column_List">
+        answer
+    </sql>
+    <insert id="insert" parameterType="com.example.demo.model.Knowledge">
+        insert into t_knowledge (id, ask, data_org,
+        image_path, shop_num, product_name,
+        video_path, doc_path, build_time,
+        product_factory, sort, group_id,
+        answer)
+        values (#{id,jdbcType=VARCHAR}, #{ask,jdbcType=VARCHAR}, #{dataOrg,jdbcType=VARCHAR},
+        #{imagePath,jdbcType=VARCHAR}, #{shopNum,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR},
+        #{videoPath,jdbcType=VARCHAR}, #{docPath,jdbcType=VARCHAR}, #{buildTime,jdbcType=TIMESTAMP},
+        #{productFactory,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{groupId,jdbcType=INTEGER},
+        #{answer,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.example.demo.model.Knowledge">
+        insert into t_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="ask != null">
+                ask,
+            </if>
+            <if test="dataOrg != null">
+                data_org,
+            </if>
+            <if test="imagePath != null">
+                image_path,
+            </if>
+            <if test="shopNum != null">
+                shop_num,
+            </if>
+            <if test="productName != null">
+                product_name,
+            </if>
+            <if test="videoPath != null">
+                video_path,
+            </if>
+            <if test="docPath != null">
+                doc_path,
+            </if>
+            <if test="buildTime != null">
+                build_time,
+            </if>
+            <if test="productFactory != null">
+                product_factory,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="ask != null">
+                #{ask,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrg != null">
+                #{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="imagePath != null">
+                #{imagePath,jdbcType=VARCHAR},
+            </if>
+            <if test="shopNum != null">
+                #{shopNum,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                #{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="videoPath != null">
+                #{videoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="docPath != null">
+                #{docPath,jdbcType=VARCHAR},
+            </if>
+            <if test="buildTime != null">
+                #{buildTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productFactory != null">
+                #{productFactory,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="answer != null">
+                #{answer,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
 
-  <!-- 条件筛选知识库Knowledge-->
-  <select id="queryKnowledgeAll" resultMap="ResultMapKnowledgeBean">
-    select k.id,k.ask,k.answer,k.product_name,k.image_path,k.product_factory,k.shop_num,o.name,s.sort from t_knowledge k left JOIN t_org o on k.data_org=o.data_org left join t_knowledge_sort s on k.sort=s.id where 1=1
-    <if test="sortList != null and sortList.size > 0">
-      and k.sort in
-      <foreach collection="sortList" index="index"  item="item" separator="," open="(" close=")">
-        #{item}
-      </foreach>
-    </if>
+    <!-- 条件筛选知识库Knowledge-->
+    <select id="queryKnowledgeAll" resultMap="ResultMapKnowledgeBean">
+        select k.id,k.ask,k.answer,k.product_name,k.image_path,k.product_factory,k.shop_num,o.name,s.sort from
+        t_knowledge k left JOIN t_org o on k.data_org=o.data_org left join t_knowledge_sort s on k.sort=s.id where 1=1
+        <if test="sortList != null and sortList.size > 0">
+            and k.sort in
+            <foreach collection="sortList" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
 
-    <if test="id != null and id != ''">
-      and k.id like "%"#{id}"%"
-    </if>
-    <if test="ask !=null and ask != ''">
-      and k.ask like "%"#{ask}"%"
-    </if>
-    <if test="shopNum !=null and shopNum != ''">
-      and k.shop_Num like "%"#{shopNum}"%"
-    </if>
-    <if test="productName !=null and productName !=''">
-      and k.product_Name like "%"#{productName}"%"
-    </if>
-    <if test="answer !=null and answer !=''">
-      and k.answer like "%"#{answer}"%"
-    </if>
-    <if test="dataOrg !=null and dataOrg !=''">
-      and o.name like "%"#{dataOrg}"%"
-    </if>
-    <if test="keyWord !=null and keyWord !=''">
-      and (k.id like "%"#{keyWord}"%" or k.answer like "%"#{keyWord}"%" or k.ask like "%"#{keyWord}"%" or k.shop_Num like "%"#{keyWord}"%" or k.product_Name like "%"#{keyWord}"%"
-      or o.name like "%"#{keyWord}"%" or s.sort like "%"#{keyWord}"%")
-    </if>
-  </select>
+        <if test="id != null and id != ''">
+            and k.id like "%"#{id}"%"
+        </if>
+        <if test="ask !=null and ask != ''">
+            and k.ask like "%"#{ask}"%"
+        </if>
+        <if test="shopNum !=null and shopNum != ''">
+            and k.shop_Num like "%"#{shopNum}"%"
+        </if>
+        <if test="productName !=null and productName !=''">
+            and k.product_Name like "%"#{productName}"%"
+        </if>
+        <if test="answer !=null and answer !=''">
+            and k.answer like "%"#{answer}"%"
+        </if>
+        <if test="dataOrg !=null and dataOrg !=''">
+            and o.name like "%"#{dataOrg}"%"
+        </if>
+        <if test="keyWord !=null and keyWord !=''">
+            and (k.id like "%"#{keyWord}"%" or k.answer like "%"#{keyWord}"%" or k.ask like "%"#{keyWord}"%" or
+            k.shop_Num like "%"#{keyWord}"%" or k.product_Name like "%"#{keyWord}"%"
+            or o.name like "%"#{keyWord}"%" or s.sort like "%"#{keyWord}"%")
+        </if>
+    </select>
 
-  <!-- 根据id做修改操作-->
-  <update id="updateKnowledge" parameterType="com.example.demo.model.Knowledge">
-    update t_knowledge
-    <set>
-      <if test="ask != null" >
-        ask=#{ask,jdbcType=VARCHAR},
-      </if>
-      <if test="dataOrg != null" >
-        data_org=#{dataOrg,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath != null" >
-        image_path=#{imagePath,jdbcType=VARCHAR},
-      </if>
-      <if test="shopNum != null" >
-        shop_num=#{shopNum,jdbcType=VARCHAR},
-      </if>
-      <if test="productName != null" >
-        product_name=#{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="videoPath != null" >
-        video_path=#{videoPath,jdbcType=VARCHAR},
-      </if>
-      <if test="docPath != null" >
-        doc_path=#{docPath,jdbcType=VARCHAR},
-      </if>
-      <if test="buildTime != null" >
-        build_time=#{buildTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="productFactory != null" >
-        product_factory=#{productFactory,jdbcType=VARCHAR},
-      </if>
-      <if test="sort != null" >
-        sort=#{sort,jdbcType=INTEGER},
-      </if>
-      <if test="groupId != null" >
-        group_id=#{groupId,jdbcType=INTEGER},
-      </if>
-      <if test="answer != null" >
-        answer=#{answer,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-     where id=#{id}
-  </update>
+    <!-- 根据id做修改操作-->
+    <update id="updateKnowledge" parameterType="com.example.demo.model.Knowledge">
+        update t_knowledge
+        <set>
+            <if test="ask != null">
+                ask=#{ask,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrg != null">
+                data_org=#{dataOrg,jdbcType=VARCHAR},
+            </if>
+            <if test="imagePath != null">
+                image_path=#{imagePath,jdbcType=VARCHAR},
+            </if>
+            <if test="shopNum != null">
+                shop_num=#{shopNum,jdbcType=VARCHAR},
+            </if>
+            <if test="productName != null">
+                product_name=#{productName,jdbcType=VARCHAR},
+            </if>
+            <if test="videoPath != null">
+                video_path=#{videoPath,jdbcType=VARCHAR},
+            </if>
+            <if test="docPath != null">
+                doc_path=#{docPath,jdbcType=VARCHAR},
+            </if>
+            <if test="buildTime != null">
+                build_time=#{buildTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productFactory != null">
+                product_factory=#{productFactory,jdbcType=VARCHAR},
+            </if>
+            <if test="sort != null">
+                sort=#{sort,jdbcType=INTEGER},
+            </if>
+            <if test="groupId != null">
+                group_id=#{groupId,jdbcType=INTEGER},
+            </if>
+            <if test="answer != null">
+                answer=#{answer,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
 
     <!-- 根据id做批量删除-->
     <delete id="deleteBatchByIds">

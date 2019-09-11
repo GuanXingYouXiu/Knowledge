@@ -24,6 +24,6 @@ public interface KnowledgeSortMapper {
     int updateByPrimaryKey(KnowledgeSort record);
 
 
-    @SelectProvider(type = SqlProviderController.class,method = "querySortAll")
+    @SelectProvider(type = SqlProviderController.class, method = "querySortAll")
     List<KnowledgeSort> querySortAll();
 }

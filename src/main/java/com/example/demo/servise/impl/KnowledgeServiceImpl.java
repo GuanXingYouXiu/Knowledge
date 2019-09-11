@@ -140,13 +140,13 @@ public class KnowledgeServiceImpl implements KnowledgeService {
     }
 
 
-    private List<Org> getChild(List<Org> orgs,List<Org>child){
+    private List<Org> getChild(List<Org> orgs, List<Org> child) {
         List<Org> orgList = null;
         for (Org org : orgs) {
-            if (org.getChild().size() == 0){
+            if (org.getChild().size() == 0) {
                 child.add(org);
                 orgList = child;
-            }else{
+            } else {
                 orgList = getChild(org.getChild(), child);
             }
 
@@ -181,13 +181,13 @@ public class KnowledgeServiceImpl implements KnowledgeService {
             jpgPath = null;
             videoPath = null;
 
-            if(StringUtil.isNotEmpty((String) map.get("docPath"))){
+            if (StringUtil.isNotEmpty((String) map.get("docPath"))) {
                 docPath = (String) map.get("docPath");
             }
-            if (StringUtil.isNotEmpty((String) map.get("jpgPath"))){
+            if (StringUtil.isNotEmpty((String) map.get("jpgPath"))) {
                 jpgPath = (String) map.get("jpgPath");
             }
-            if (StringUtil.isNotEmpty((String) map.get("mp4Path"))){
+            if (StringUtil.isNotEmpty((String) map.get("mp4Path"))) {
                 videoPath = (String) map.get("mp4Path");
             }
             return this;

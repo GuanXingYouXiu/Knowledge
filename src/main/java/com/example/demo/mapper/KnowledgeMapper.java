@@ -13,24 +13,36 @@ import java.util.List;
 public interface KnowledgeMapper {
     int insert(Knowledge record);
 
-    /** 添加知识库资料*/
+    /**
+     * 添加知识库资料
+     */
     int insertSelective(Knowledge record);
 
-    /** 条件筛选知识库*/
+    /**
+     * 条件筛选知识库
+     */
     List<KnowledgeBean> queryKnowledgeAll(KnowledgeBean knowledgeBean);
 
-    /** 根据ID编号查询图片路径*/
-    @SelectProvider(type = SqlProviderController.class,method = "queryImgPathById")
+    /**
+     * 根据ID编号查询图片路径
+     */
+    @SelectProvider(type = SqlProviderController.class, method = "queryImgPathById")
     String queryImgPathById(String Id);
 
-    /** 批量删除*/
+    /**
+     * 批量删除
+     */
 //    @DeleteProvider(type = SqlProviderController.class,method = "deleteBatchByIds")
     void deleteBatchByIds(List<String> Ids);
 
-    /** 根据Id 查询知识库数据信息*/
-    @SelectProvider(type = SqlProviderController.class,method = "queryKnowledgeById")
+    /**
+     * 根据Id 查询知识库数据信息
+     */
+    @SelectProvider(type = SqlProviderController.class, method = "queryKnowledgeById")
     Knowledge queryKnowledgeById(String Id);
 
-    /** 根据Id修改知识库数据*/
+    /**
+     * 根据Id修改知识库数据
+     */
     void updateKnowledge(Knowledge knowledge);
 }

@@ -12,8 +12,8 @@
         </constructor>
     </resultMap>
     <sql id="Base_Column_List">
-    id, full_name, name, org_code, parent_id, data_org
-  </sql>
+        id, full_name, name, org_code, parent_id, data_org
+    </sql>
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
         select
         <include refid="Base_Column_List"/>
@@ -21,17 +21,17 @@
         where id = #{id,jdbcType=VARCHAR}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from t_org
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
+        delete from t_org
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
     <insert id="insert" parameterType="com.example.demo.model.Org">
-    insert into t_org (id, full_name, name, 
-      org_code, parent_id, data_org
-      )
-    values (#{id,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{orgCode,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{dataOrg,jdbcType=VARCHAR}
-      )
-  </insert>
+        insert into t_org (id, full_name, name,
+        org_code, parent_id, data_org
+        )
+        values (#{id,jdbcType=VARCHAR}, #{fullName,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+        #{orgCode,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{dataOrg,jdbcType=VARCHAR}
+        )
+    </insert>
     <insert id="insertSelective" parameterType="com.example.demo.model.Org">
         insert into t_org
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -97,18 +97,18 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.example.demo.model.Org">
-    update t_org
-    set full_name = #{fullName,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      org_code = #{orgCode,jdbcType=VARCHAR},
-      parent_id = #{parentId,jdbcType=VARCHAR},
-      data_org = #{dataOrg,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+        update t_org
+        set full_name = #{fullName,jdbcType=VARCHAR},
+        name = #{name,jdbcType=VARCHAR},
+        org_code = #{orgCode,jdbcType=VARCHAR},
+        parent_id = #{parentId,jdbcType=VARCHAR},
+        data_org = #{dataOrg,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 
     <select id="queryOrgAll" resultMap="orgResult">
         SELECT distinct * FROM jxc.t_org WHERE jxc.t_org.parent_id IS NULL
-   </select>
+    </select>
 
 
     <resultMap id="orgResult" type="com.example.demo.model.Org">

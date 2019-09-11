@@ -55,7 +55,6 @@ public class KnowledgeControlle {
         if (knowledgeBean.getDataOrg() != null && knowledgeBean.getDataOrg().equals("部门")) {
             knowledgeBean.setDataOrg("");
         }
-
         Integer star = 0;
         Integer pagesize = 15;
 
@@ -186,7 +185,7 @@ public class KnowledgeControlle {
         return "redirect:/knowledge";
     }
 
-    private boolean upLoadDocAndMp4(HttpServletRequest request){
+    private boolean upLoadDocAndMp4(HttpServletRequest request) {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
                 request.getSession().getServletContext());
         boolean flag = false;
@@ -209,7 +208,7 @@ public class KnowledgeControlle {
         return flag;
     }
 
-    private boolean upLoadImg(MultipartFile[] imagePath){
+    private boolean upLoadImg(MultipartFile[] imagePath) {
         boolean flag = false;
         for (MultipartFile imgFile : imagePath) {
             String filename = imgFile.getOriginalFilename();

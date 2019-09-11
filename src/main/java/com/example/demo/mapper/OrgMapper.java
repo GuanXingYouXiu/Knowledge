@@ -23,6 +23,6 @@ public interface OrgMapper {
 
     int updateByPrimaryKey(Org record);
 
-//    @SelectProvider(type = SqlProviderController.class,method = "queryOrgAll")
+    //    @SelectProvider(type = SqlProviderController.class,method = "queryOrgAll")
     List<Org> queryOrgAll();
 }
